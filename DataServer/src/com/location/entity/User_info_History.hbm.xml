@@ -6,16 +6,18 @@
 <hibernate-mapping package="com.location.entity">
     <!--生成默认为user的数据库表-->  
     <class name="User_info_History" table="user_info_history">  
-        <id name="user_id" column="user_id">  
+        <composite-id >  
             <!-- 算法的核心思想是结合机器的网卡、当地时间、一个随机数来生成GUID -->  
-            <!-- <generator class="native"></generator> --> 
-        </id>  
+            <!-- <generator class="native"></generator> -->
+            <key-property name="user_id" column="user_id" ></key-property>
+            <key-property name="timestamp_millisecond" column="timestamp_millisecond" ></key-property>
+        </composite-id>
         <property name="accuracy" column="accuracy"></property>  
         <property name="build_id" column="build_id"></property>  
         <property name="floor_id" column="floor_id"></property>  
         <property name="error_code" column="error_code"></property>  
         <property name="nearest_tag_id" column="nearest_tag_id"></property>
-        <property name="timestamp_millisecond" column="timestamp_millisecond"></property> 
+<!--         <property name="timestamp_millisecond" column="timestamp_millisecond"></property>  -->
         <property name="x_millimeter" column="x_millimeter"></property> 
         <property name="y_millimeter" column="y_millimeter"></property> 
         <property name="alarm" column="alarm"></property>   

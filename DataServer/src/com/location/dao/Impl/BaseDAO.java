@@ -10,7 +10,7 @@ import com.location.dao.hibernate.HibernateSessionFactory;
 public class BaseDAO<T> {
 
 	/**
-	 * 插入数据
+	 * 鎻掑叆鏁版嵁
 	 * 
 	 * @param object
 	 */
@@ -21,7 +21,7 @@ public class BaseDAO<T> {
 		try {
 			session.beginTransaction();
 
-			session.persist(object);
+			session.save(object);
 
 			session.getTransaction().commit();
 
@@ -33,7 +33,7 @@ public class BaseDAO<T> {
 	}
 
 	/**
-	 * 更新数据库
+	 * 鏇存柊鏁版嵁搴�
 	 * 
 	 * @param object
 	 */
@@ -43,7 +43,7 @@ public class BaseDAO<T> {
 
 		try {
 			session.beginTransaction();
-			session.update(object);
+			session.saveOrUpdate(object);
 			session.getTransaction().commit();
 		} catch (Exception e) {
 			session.getTransaction().rollback();
@@ -53,7 +53,7 @@ public class BaseDAO<T> {
 	}
 
 	/**
-	 * 从数据库中删除
+	 * 浠庢暟鎹簱涓垹闄�
 	 * 
 	 * @param object
 	 */
@@ -73,7 +73,7 @@ public class BaseDAO<T> {
 	}
 
 	/**
-	 * 查找单个Entity Bean
+	 * 鏌ユ壘鍗曚釜Entity Bean
 	 * 
 	 * @param clazz
 	 * @param id
@@ -93,7 +93,7 @@ public class BaseDAO<T> {
 	}
 
 	/**
-	 * 查找多个Entity Bean
+	 * 鏌ユ壘澶氫釜Entity Bean
 	 * 
 	 * @param hql
 	 * @return
