@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 2016-10-20 20:34:54 by Hibernate Tools 3.5.0.Final -->
+<hibernate-mapping>
+    <class name="com.location.entity.User_info_history" table="user_info_history">
+        <composite-id>
+        	<key-property name="user_id" column="user_id" type="string"/>
+        	<key-property name="timestamp_millisecond" type="java.lang.Double"/>
+        </composite-id>
+        <property name="build_id" type="java.lang.String">
+            <column name="build_id" />
+        </property>
+        <property name="error_code" type="java.lang.Integer">
+            <column name="error_code" />
+        </property>
+        <property name="floor_id" type="java.lang.Integer">
+            <column name="floor_id" />
+        </property>
+        <property name="nearest_tag_id" type="java.lang.String">
+            <column name="nearest_tag_id" />
+        </property>
+        <property name="x_millimeter" type="java.lang.Integer">
+            <column name="x_millimeter" />
+        </property>
+        <property name="y_millimeter" type="java.lang.Integer">
+            <column name="y_millimeter" />
+        </property>
+        <property name="alarm" type="java.lang.Boolean">
+            <column name="alarm" />
+        </property>
+        <property name="region_id" type="java.lang.String">
+            <column name="region_id" />
+        </property>
+        <property name="group_id" type="java.lang.String">
+            <column name="group_id" />
+        </property>
+    </class>
+</hibernate-mapping>

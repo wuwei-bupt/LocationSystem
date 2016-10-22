@@ -7,12 +7,13 @@
     <!--生成默认为user的数据库表-->  
     <class name="User_info" table="user_info">  
         <id name="user_id" column="user_id">  
+        	<generator class="assigned"/>
             <!-- 算法的核心思想是结合机器的网卡、当地时间、一个随机数来生成GUID -->  
             <!-- <generator class="native"></generator> --> 
         </id>  
         <property name="accuracy" column="accuracy"></property>  
-        <property name="build_id" column="build_id"></property>  
         <property name="floor_id" column="floor_id"></property>  
+        <property name="build_id" column="build_id"></property>  
         <property name="error_code" column="error_code"></property>  
         <property name="nearest_tag_id" column="nearest_tag_id"></property>
         <property name="timestamp_millisecond" column="timestamp_millisecond"></property> 

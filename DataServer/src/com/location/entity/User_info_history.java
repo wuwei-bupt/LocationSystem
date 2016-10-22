@@ -1,25 +1,25 @@
 package com.location.entity;
 
+
 @SuppressWarnings("serial")
-public class User_info implements java.io.Serializable {
-	private String accuracy;
+public class User_info_history implements java.io.Serializable{
+	//private String accuracy;
 	private String build_id;
 	private Integer error_code;
 	private Integer floor_id;
-	private String info;
+	//private String info;
 	private String nearest_tag_id;
 	private Double timestamp_millisecond;
 	private String user_id;
 	private Integer x_millimeter;
 	private Integer y_millimeter;
-	private Integer compass;
+	//private Integer compass;
 	private Boolean alarm;
-	
-	public String getAccuracy() {
-		return accuracy;
-	}
-	public void setAccuracy(String accuracy) {
-		this.accuracy = accuracy;
+	private String region_id;
+	private String group_id;
+	public User_info_history() {
+		//super();
+		// TODO Auto-generated constructor stub
 	}
 	public String getBuild_id() {
 		return build_id;
@@ -38,12 +38,6 @@ public class User_info implements java.io.Serializable {
 	}
 	public void setFloor_id(Integer floor_id) {
 		this.floor_id = floor_id;
-	}
-	public String getInfo() {
-		return info;
-	}
-	public void setInfo(String info) {
-		this.info = info;
 	}
 	public String getNearest_tag_id() {
 		return nearest_tag_id;
@@ -75,17 +69,24 @@ public class User_info implements java.io.Serializable {
 	public void setY_millimeter(Integer y_millimeter) {
 		this.y_millimeter = y_millimeter;
 	}
-	public Integer getCompass() {
-		return compass;
-	}
-	public void setCompass(Integer compass) {
-		this.compass = compass;
-	}
 	public Boolean getAlarm() {
 		return alarm;
 	}
 	public void setAlarm(Boolean alarm) {
 		this.alarm = alarm;
 	}
-
+	public String getRegion_id() {
+		return region_id;
+	}
+	public void setRegion_id(String region_id) {
+		this.region_id = region_id;
+	}
+	public String getGroup_id() {
+		return group_id;
+	}
+	public void setGroup_id(String group_id) {
+		this.group_id = group_id;
+	}
+	
+	
 }

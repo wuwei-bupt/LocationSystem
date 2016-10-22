@@ -21,7 +21,7 @@ public class BaseDAO<T> {
 		try {
 			session.beginTransaction();
 
-			session.persist(object);
+			session.save(object);
 
 			session.getTransaction().commit();
 
