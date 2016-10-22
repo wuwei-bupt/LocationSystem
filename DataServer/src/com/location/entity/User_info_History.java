@@ -2,7 +2,7 @@ package com.location.entity;
 
 import java.io.Serializable;
 
-public class User_info implements Serializable {
+public class User_info_History implements Serializable {
 	private String accuracy;
 	private String build_id;
 	private Integer error_code;
