@@ -6,10 +6,13 @@ import java.util.Map;
 
 import javax.persistence.LockModeType;
 
+import org.hibernate.Session;
+
 import com.grain.Filter;
 import com.grain.Order;
 import com.grain.Page;
 import com.grain.Pageable;
+//import com.location.dao.hibernate.HibernateSessionFactory;
 
 /**
  * Dao - 基类
@@ -164,4 +167,12 @@ public interface BaseDao<T, ID extends Serializable> {
 	
 	public List<Object[]> findBysql(String jpql,Map<String, Object> params);
 	public List<Object[]> findBysql(String jpql);
+	/**
+	 * 查找多个Entity Bean
+	 * 
+	 * @param hql
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<T> list(String hql);
 }

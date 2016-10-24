@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.w3c.dom.ls.LSException;
 
 import com.grain.BaiduMapApi;
 import com.grain.CommonAttributes;
@@ -40,6 +41,7 @@ import com.grain.entity.Area;
 import com.grain.entity.Grainbin;
 import com.grain.entity.Graindepot;
 import com.grain.entity.Graindirection;
+import com.grain.entity.Prisoner;
 import com.grain.entity.page.Depot;
 import com.grain.entity.user.DepotUser;
 import com.grain.service.AreaService;
@@ -49,6 +51,7 @@ import com.grain.service.GraindepotService;
 import com.grain.service.GraindirectionService;
 import com.grain.service.RSAService;
 import com.grain.service.user.DepotUserService;
+import com.grain.service.user.PrisonerService;
 import com.grain.util.SettingUtils;
 import com.grain.util.SpringUtils;
 import com.grain.util.WebUtils;
@@ -82,6 +85,9 @@ public class CommonController {
 	
 	@Resource(name = "baiduMapApi")
 	BaiduMapApi baidu;
+	
+	@Resource(name = "prisonerServiceImpl")
+	PrisonerService prisonerService;
 	/**
 	 * 网站关闭
 	 */
@@ -514,5 +520,27 @@ public class CommonController {
 			return false;
 		}
 		return !depotuserSrv.existUserName(username);
+	}
+	
+	@RequestMapping(value = "/prison_trace", method = RequestMethod.POST)
+	public @ResponseBody
+	Json getPrisonerTrace(@RequestParam("op_name") String op_name,
+								@RequestParam("op_parameter") String op_parameter){
+		
+		List<Prisoner> l = prisonerService.findByParam(op_name, op_parameter);
+		List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
+		Prisoner p = null;
+		for(int i=0;i<l.size();i++){
+			HashMap<String, String> hashMap = new HashMap<String, String>();
+			p = l.get(i);
+			hashMap.put("UUID", p.getUser_id());
+			hashMap.put("status", String.valueOf(p.getError_code()));
+			hashMap.put("x",String.valueOf(p.getX_millimeter()));
+			hashMap.put("y",String.valueOf(p.getY_millimeter()));
+			ls.add(hashMap);
+		}
+		Json js = new Json();
+		js.setObj(ls);
+		return js;
 	}
 }

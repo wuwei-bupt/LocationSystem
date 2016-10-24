@@ -26,6 +26,7 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Session;
 import org.springframework.util.Assert;
 
 import com.grain.Filter;
@@ -36,6 +37,9 @@ import com.grain.Filter.Operator;
 import com.grain.Order.Direction;
 import com.grain.dao.BaseDao;
 import com.grain.entity.OrderEntity;
+import com.grain.entity.Prisoner;
+//import com.location.dao.hibernate.HibernateSessionFactory;
+import com.prison.sessionFactory.HibernateSessionFactory;
 
 /**
  * Dao - 基类
@@ -548,5 +552,16 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao
 		// end add by szy 20160415
 		criteriaQuery.orderBy(orderList);
 	}
+	@SuppressWarnings("unchecked")
+	public List<T> list(String hql) {
 
+		Session session = HibernateSessionFactory.getSessionFactory().openSession();
+		try {
+			session.beginTransaction();
+			return session.createQuery(hql).list();
+		} finally {
+			session.getTransaction().commit();
+			session.close();
+		}
+	}
 }

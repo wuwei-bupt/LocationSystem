@@ -49,11 +49,11 @@ public class Server extends Thread {
 				//遍历JsonArray对象
 				User_info_history user_info_history= null;
 				User_info user_info = null;
-				User_name user_name = null;
+				User_name user_name = new User_name();
 				System.out.println(jsonArray.toString());
 				Iterator it = jsonArray.iterator();
-				
 				while(it.hasNext()){
+					
 					JsonElement jsonElement = (JsonElement) it.next();
 					String str = jsonElement.getAsString();
 					
@@ -62,12 +62,18 @@ public class Server extends Thread {
 					//JsonElement转换为JavaBean对象
 					user_info = gson.fromJson(e, User_info.class);
 					user_info_history = gson.fromJson(e, User_info_history.class);
+			
+					user_name.setId_card("222222222");
+					user_name.setUser_name("guoxinze");
+					user_name.setUser_info(user_info);
+					
 					baseDAO2.create(user_info_history);
 					baseDAO.create(user_info);
-					System.out.println("user_info_buildid is "+user_info.getBuild_id());
+					baseDAO3.create(user_name);
+					System.out.println("username is "+user_name.getUser_name()+"user id is"+user_name.getUser_info().getUser_id());
+					//break;
 				}
-				
-			} catch (UnsupportedEncodingException e) {
+			}catch (UnsupportedEncodingException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

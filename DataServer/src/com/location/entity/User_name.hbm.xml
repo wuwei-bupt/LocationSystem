@@ -11,8 +11,8 @@
         <property name="user_name" type="java.lang.String">
             <column name="user_name" />
         </property>
-        <many-to-one name="user_info" class="com.location.entity.User_info" fetch="join">
-            <column name="user_info" />
+        <many-to-one name="user_info" class="com.location.entity.User_info" not-null="true">
+            <column name="user_deviceID" />
         </many-to-one>
     </class>
 </hibernate-mapping>

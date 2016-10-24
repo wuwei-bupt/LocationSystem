@@ -1,6 +1,7 @@
 package com.location.entity;
 
 
+@SuppressWarnings("serial")
 public class User_name implements java.io.Serializable {
 	
 	private String id_card;
