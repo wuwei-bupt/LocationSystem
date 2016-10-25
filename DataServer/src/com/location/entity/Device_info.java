@@ -2,7 +2,7 @@ package com.location.entity;
 
 import java.io.Serializable;
 
-public class User_info_History implements Serializable {
+public class Device_info implements Serializable {
 	private String accuracy;
 	private String build_id;
 	private Integer error_code;
@@ -10,7 +10,7 @@ public class User_info_History implements Serializable {
 	private String info;
 	private String nearest_tag_id;
 	private Double timestamp_millisecond;
-	private String user_id;
+	private String device_id;
 	private Integer x_millimeter;
 	private Integer y_millimeter;
 	private Integer compass;
@@ -58,11 +58,11 @@ public class User_info_History implements Serializable {
 	public void setTimestamp_millisecond(Double timestamp_millisecond) {
 		this.timestamp_millisecond = timestamp_millisecond;
 	}
-	public String getUser_id() {
-		return user_id;
+	public String getDevice_id() {
+		return device_id;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setDevice_id(String device_id) {
+		this.device_id = device_id;
 	}
 	public Integer getX_millimeter() {
 		return x_millimeter;
