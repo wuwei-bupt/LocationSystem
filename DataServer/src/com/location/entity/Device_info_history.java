@@ -2,7 +2,7 @@ package com.location.entity;
 
 
 @SuppressWarnings("serial")
-public class User_info_history implements java.io.Serializable{
+public class Device_info_history implements java.io.Serializable{
 	//private String accuracy;
 	private String build_id;
 	private Integer error_code;
@@ -17,7 +17,7 @@ public class User_info_history implements java.io.Serializable{
 	private Boolean alarm;
 	private String region_id;
 	private String group_id;
-	public User_info_history() {
+	public Device_info_history() {
 		//super();
 		// TODO Auto-generated constructor stub
 	}

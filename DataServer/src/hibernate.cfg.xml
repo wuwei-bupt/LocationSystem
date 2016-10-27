@@ -29,8 +29,8 @@
 		
 		<!-- Drop and re-create the database schema on startup -->
 		<property name="hbm2ddl.auto">update</property>
-		<mapping resource="com/location/entity/User_info.hbm.xml" />
-		<mapping resource="com/location/entity/User_info_history.hbm.xml" />
-		<mapping resource="com/location/entity/User_name.hbm.xml" />
+		<mapping resource="com/location/entity/Device_info.hbm.xml" />
+		<mapping resource="com/location/entity/Device_info_history.hbm.xml" />
+		<mapping resource="com/location/entity/User_device.hbm.xml" />
 	</session-factory>
 </hibernate-configuration>

@@ -5,7 +5,7 @@
       
 <hibernate-mapping package="com.location.entity">
     <!--生成默认为user的数据库表-->  
-    <class name="User_info" table="user_info">  
+    <class name="Device_info" table="device_info">  
         <id name="user_id" column="user_id">  
         	<generator class="assigned"/>
             <!-- 算法的核心思想是结合机器的网卡、当地时间、一个随机数来生成GUID -->  

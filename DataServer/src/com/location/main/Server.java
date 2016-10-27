@@ -6,8 +6,7 @@ import java.util.Iterator;
 import com.google.gson.*;
 import com.location.dao.Impl.BaseDAO;
 import com.location.entity.User_info;
-import com.location.entity.User_info_history;
-import com.location.entity.User_name;
+import com.location.entity.Device_info_history;
 import com.location.json.JSON;
 
 public class Server extends Thread {
@@ -43,13 +42,13 @@ public class Server extends Thread {
 
 				//创建一个BaseDao对象，往数据库写入POJO
 				BaseDAO<User_info> baseDAO = new BaseDAO<>();
-				BaseDAO<User_info_history> baseDAO2 = new BaseDAO<>();
-				BaseDAO<User_name> baseDAO3 = new BaseDAO<>();
+				BaseDAO<Device_info_history> baseDAO2 = new BaseDAO<>();
+				//BaseDAO<User_name> baseDAO3 = new BaseDAO<>();
 				
 				//遍历JsonArray对象
-				User_info_history user_info_history= null;
+				Device_info_history user_info_history= null;
 				User_info user_info = null;
-				User_name user_name = new User_name();
+				//User_name user_name = new User_name();
 				System.out.println(jsonArray.toString());
 				Iterator it = jsonArray.iterator();
 				while(it.hasNext()){
@@ -61,16 +60,16 @@ public class Server extends Thread {
 					
 					//JsonElement转换为JavaBean对象
 					user_info = gson.fromJson(e, User_info.class);
-					user_info_history = gson.fromJson(e, User_info_history.class);
-			
-					user_name.setId_card("222222222");
-					user_name.setUser_name("guoxinze");
-					user_name.setUser_info(user_info);
+					user_info_history = gson.fromJson(e, Device_info_history.class);
+		
+					//user_name.setId_card("222222222");
+					//user_name.setUser_name("guoxinze");
+					//user_name.setUser_info(user_info);
 					
 					baseDAO2.create(user_info_history);
 					baseDAO.create(user_info);
-					baseDAO3.create(user_name);
-					System.out.println("username is "+user_name.getUser_name()+"user id is"+user_name.getUser_info().getUser_id());
+					//baseDAO3.create(user_name);
+					//System.out.println("username is "+user_name.getUser_name()+"user id is"+user_name.getUser_info().getUser_id());
 					//break;
 				}
 			}catch (UnsupportedEncodingException e) {
