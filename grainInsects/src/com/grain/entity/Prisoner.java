@@ -2,14 +2,12 @@ package com.grain.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "user_info")
+@Table(name = "device_info")
 public class Prisoner implements java.io.Serializable{
 	private String accuracy;
 	private String build_id;
@@ -74,7 +72,6 @@ public class Prisoner implements java.io.Serializable{
 		this.timestamp_millisecond = timestamp_millisecond;
 	}
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)//存疑，怎么用自己分配的主键
 	@Column(name = "user_id", unique = true, nullable = false)
 	public String getUser_id() {
 		return user_id;

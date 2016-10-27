@@ -18,8 +18,12 @@ public class PrisonerServiceImp extends BaseServiceImpl<Prisoner, String> implem
 	
 
 	@Override
-	public List<Prisoner> findByParam(String table, String choice) {
+	public List<Prisoner> findByParam(String choice) {
 		// TODO Auto-generated method stub
-		return prisonerDao.findAll(table,choice);
+		if(choice == "all"){
+			return prisonerDao.findAll();
+		}else{
+			return null;
+		}
 	}
 }

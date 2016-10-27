@@ -167,12 +167,4 @@ public interface BaseDao<T, ID extends Serializable> {
 	
 	public List<Object[]> findBysql(String jpql,Map<String, Object> params);
 	public List<Object[]> findBysql(String jpql);
-	/**
-	 * 查找多个Entity Bean
-	 * 
-	 * @param hql
-	 * @return
-	 */
-	@SuppressWarnings("unchecked")
-	public List<T> list(String hql);
 }

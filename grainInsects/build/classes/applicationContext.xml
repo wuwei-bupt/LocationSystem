@@ -7,13 +7,18 @@
 	http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-4.2.xsd
 	http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.2.xsd"
 	default-lazy-init="true">
-
+	
+	<!-- 属性的配置文件的位置 -->
 	<context:property-placeholder location="classpath*:/grain.properties" ignore-resource-not-found="true" ignore-unresolvable="true" />
 
+	<!-- 不扫描com.grain包里面有@Controller的bean -->
 	<context:component-scan base-package="com.grain">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 
+	<!-- 定义数据源Bean,使用C3P0数据源实现 -->
+	<!-- 设置连接数据库的驱动、URL、用户名、密码、
+		连接池最大连接数、最小连接数、初始连接数等参数 -->
 	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
 		<property name="driverClass" value="${jdbc.driver}" />
 		<property name="jdbcUrl" value="${jdbc.url}" />
@@ -26,7 +31,9 @@
 		<property name="acquireIncrement" value="${connection_pools.acquire_increment}" />
 		<property name="checkoutTimeout" value="${connection_pools.checkout_timeout}" />
 	</bean>
-
+	
+	<!-- 整合JPA，使用LocalContainerEntityManagerFactoryBean创建EntityManagerFactory。支持使用容器中已有的datasource
+		同时也需要使用persistence.xml文件来创建PersistenceUnitInfo -->
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="persistenceXmlLocation" value="classpath*:/persistence.xml" />
@@ -37,6 +44,7 @@
 				<property name="generateDdl" value="true" />
 			</bean>
 		</property>
+		<!-- 配置Hibernate的相关属性 -->
 		<property name="jpaProperties">
 			<props>
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
@@ -53,11 +61,11 @@
 			</props>
 		</property>
 	</bean>
-
+	<!-- 配置针对JPA的局部事务管理器 -->
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
 	</bean>
-
+	<!--根据事务注解来生成事务代理，也就是可以通过@Transactional来修饰业务逻辑组件  -->
 	<tx:annotation-driven transaction-manager="transactionManager" />
 
 	<cache:annotation-driven cache-manager="cacheManager" />

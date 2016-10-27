@@ -26,8 +26,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.w3c.dom.ls.LSException;
-
 import com.grain.BaiduMapApi;
 import com.grain.CommonAttributes;
 import com.grain.Json;
@@ -526,21 +524,26 @@ public class CommonController {
 	public @ResponseBody
 	Json getPrisonerTrace(@RequestParam("op_name") String op_name,
 								@RequestParam("op_parameter") String op_parameter){
+
 		
-		List<Prisoner> l = prisonerService.findByParam(op_name, op_parameter);
-		List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
-		Prisoner p = null;
-		for(int i=0;i<l.size();i++){
-			HashMap<String, String> hashMap = new HashMap<String, String>();
-			p = l.get(i);
-			hashMap.put("UUID", p.getUser_id());
-			hashMap.put("status", String.valueOf(p.getError_code()));
-			hashMap.put("x",String.valueOf(p.getX_millimeter()));
-			hashMap.put("y",String.valueOf(p.getY_millimeter()));
-			ls.add(hashMap);
-		}
-		Json js = new Json();
-		js.setObj(ls);
-		return js;
+	    if(op_name == "realtime"){
+				List<Prisoner> l = prisonerService.findByParam(op_parameter);	
+				List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
+				Prisoner p = null;
+				for(int i=0;i<l.size();i++){
+					HashMap<String, String> hashMap = new HashMap<String, String>();
+					p = l.get(i);
+					hashMap.put("UUID", p.getUser_id());
+					hashMap.put("status", String.valueOf(p.getError_code()));
+					hashMap.put("x",String.valueOf(p.getX_millimeter()));
+					hashMap.put("y",String.valueOf(p.getY_millimeter()));
+					ls.add(hashMap);
+				}
+				Json js = new Json();
+				js.setObj(ls);
+				return js;
+	    }else{
+	    	return null;
+	    }
 	}
 }

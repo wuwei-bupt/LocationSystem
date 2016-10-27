@@ -26,7 +26,6 @@ import javax.persistence.criteria.Root;
 import javax.persistence.criteria.Selection;
 
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.Session;
 import org.springframework.util.Assert;
 
 import com.grain.Filter;
@@ -37,9 +36,6 @@ import com.grain.Filter.Operator;
 import com.grain.Order.Direction;
 import com.grain.dao.BaseDao;
 import com.grain.entity.OrderEntity;
-import com.grain.entity.Prisoner;
-//import com.location.dao.hibernate.HibernateSessionFactory;
-import com.prison.sessionFactory.HibernateSessionFactory;
 
 /**
  * Dao - 基类
@@ -48,11 +44,12 @@ import com.prison.sessionFactory.HibernateSessionFactory;
 public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao<T, ID> {
 
 	/** 实体类类型 */
+	//使用Class<T>相当于使用entityClass.class
 	private Class<T> entityClass;
 
 	/** 别名数 */
 	private static volatile long aliasCount = 0;
-
+	//从配置文件中注入EntityManager,使用Field注入
 	@PersistenceContext
 	protected EntityManager entityManager;
 
@@ -62,14 +59,19 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao
 		Type[] parameterizedType = ((ParameterizedType) type).getActualTypeArguments();
 		entityClass = (Class<T>) parameterizedType[0];
 	}
-
+	//使用JPA的entityManager找到对应的实体
 	public T find(ID id) {
 		if (id != null) {
 			return entityManager.find(entityClass, id);
 		}
 		return null;
 	}
-
+	/**
+	 * 使用entityManager来管理数据库的锁LockModeType有两种类型
+	 *LockModeTypt.OPTIMISTIC和LockModeType.OPTIMISTIC_FORCE_INCREMENT
+	 *分别对应两个值LockModeType.READ和LockModeType.WRITE
+	 *使用锁的目的是为了避免并发冲突
+	 */
 	public T find(ID id, LockModeType lockModeType) {
 		if (id != null) {
 			if (lockModeType != null) {
@@ -84,27 +86,50 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao
 	public List<T> findList(Integer first, Integer count, List<Filter> filters, List<Order> orders) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
+		//.select方法说明了查询结果也就是CriteriaQuery<T>中T所代表的类型。如果是Prisoner那么返回的结果里面就是prisoner
 		criteriaQuery.select(criteriaQuery.from(entityClass));
 		return findList(criteriaQuery, first, count, filters, orders);
 	}
-
+	/**
+	 * 分页查询 
+	 *@param pageable分页信息
+	 *@return 分到的页
+	 */
 	public Page<T> findPage(Pageable pageable) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
 		criteriaQuery.select(criteriaQuery.from(entityClass));
 		return findPage(criteriaQuery, pageable);
 	}
-
+	/**
+	 * gxz add on 20161026
+	 * 找到数据库某个表中所有的数据
+	 */
+	public List<T> findAll1(){
+		return find1("select a from " 
+					+ entityClass.getSimpleName() +" a");
+	}
+	@SuppressWarnings("unchecked")
+	public List<T> find1(String jpql){
+		return (List<T>)entityManager.createQuery(jpql)
+				.setFlushMode(FlushModeType.COMMIT).getResultList();
+	}
+	//-- end of gxz add
 	/**
 	 *  szy add on 20160407
 	 */
-	
+	/**
+	 * 该方法利用sql语句查询返回所有的记录存在List中
+	 * Object[]中分属性以数组的形式存储
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Object[]> findBysql(String jpql){
 		return entityManager.createNativeQuery(jpql)
 				.setFlushMode(FlushModeType.COMMIT).getResultList();
 	}
-	
+	/**
+	 * 给查询的sql语句加上参数
+	 */
 	@SuppressWarnings("unchecked")
 	public List<Object[]> findBysql(String jpql,Map<String, Object> params){
 		Query q= entityManager.createNativeQuery(jpql);
@@ -116,6 +141,9 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao
 		return q.setFlushMode(FlushModeType.COMMIT).getResultList();
 	}
 	
+	/**
+	 * 根据传入的实体类分页查找获取该页的信息.
+	 */
 	public Page<T> findPage(Pageable pageable,T t) {
 		CriteriaBuilder criteriaBuilder = entityManager.getCriteriaBuilder();
 		CriteriaQuery<T> criteriaQuery = criteriaBuilder.createQuery(entityClass);
@@ -552,16 +580,5 @@ public abstract class BaseDaoImpl<T, ID extends Serializable> implements BaseDao
 		// end add by szy 20160415
 		criteriaQuery.orderBy(orderList);
 	}
-	@SuppressWarnings("unchecked")
-	public List<T> list(String hql) {
 
-		Session session = HibernateSessionFactory.getSessionFactory().openSession();
-		try {
-			session.beginTransaction();
-			return session.createQuery(hql).list();
-		} finally {
-			session.getTransaction().commit();
-			session.close();
-		}
-	}
 }

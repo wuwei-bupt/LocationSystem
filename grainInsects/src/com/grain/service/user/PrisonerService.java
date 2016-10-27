@@ -6,6 +6,6 @@ import com.grain.service.BaseService;
 
 public interface PrisonerService extends BaseService<Prisoner, String> {
 	
-	List<Prisoner> findByParam(String table, String choice);
+	List<Prisoner> findByParam(String choice);
 
 }
