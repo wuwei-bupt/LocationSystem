@@ -6,10 +6,13 @@ import java.util.Map;
 
 import javax.persistence.LockModeType;
 
+import org.hibernate.Session;
+
 import com.grain.Filter;
 import com.grain.Order;
 import com.grain.Page;
 import com.grain.Pageable;
+//import com.location.dao.hibernate.HibernateSessionFactory;
 
 /**
  * Dao - 基类

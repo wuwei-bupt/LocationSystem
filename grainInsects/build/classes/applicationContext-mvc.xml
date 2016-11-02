@@ -7,9 +7,11 @@
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
        http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd"
 	default-lazy-init="true">
-
+	
+	<!-- 参数配置文件的位置 -->
 	<context:property-placeholder location="classpath*:/grain.properties" ignore-resource-not-found="true" ignore-unresolvable="true" />
-
+	
+	<!-- 自动扫描com.grain开头的包下面的文件并将有 @Controller注解的类注册为bean -->
 	<context:component-scan base-package="com.grain" use-default-filters="false">
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
@@ -33,9 +35,14 @@
 				</property>
 			</bean>
 			<!-- json convert -->
+			<!-- 使用Jackson进行json的转换 -->
+			<!-- 在controller里支持使用@RequestBody注解，自动将requestbody里的json字符串的entity 转换为对应的对象实例 -->
 			<bean
 				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
 				<property name="supportedMediaTypes">
+				<!-- StringHttpMessageConverter的父类里有个List supportedMediaTypes属性
+				用来存放StringHttpMessageConverter支持需特殊处理的MediaType类型
+				如果需处理的MediaType类型不在supportedMediaTypes列表中，则采用默认字符集。 -->
 					<list>
 						<value>application/json;charset=UTF-8</value>
 					</list>
@@ -45,7 +52,8 @@
 		</mvc:message-converters>
 
 	</mvc:annotation-driven>
-	
+	<!-- 拦截器的作用是拦截用户的请求并进行相应的处理 -->
+	<!-- 要想实现一个拦截器，只需要实现HandlerInterceptor接口中的三个方法即可，在拦截相应请求并验证成功以后才能进入相应的controller进行处理 -->
 	<mvc:interceptors>
 		<!--
 		<mvc:interceptor>
@@ -107,7 +115,7 @@
 		
 		
 	</mvc:interceptors>
-
+	<!-- 对SpringMVC进行数据验证 -->
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 		<property name="providerClass" value="org.hibernate.validator.HibernateValidator" />
 		<property name="validationMessageSource" ref="messageSource" />
@@ -136,6 +144,7 @@
 	</bean>
 	
 	<!-- 静态资源文件的访问 -->
+	<!-- 为了引用资源的访问不会类似CONTROLLER一样被拦截 -->
 	<mvc:resources location="/resources/" mapping="/resources/**" />
 	<mvc:resources location="/upload/" mapping="/upload/**" />
 	<mvc:resources location="/favicon.ico" mapping="/favicon.ico" />
