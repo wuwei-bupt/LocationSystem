@@ -1,13 +1,6 @@
 package com.location.entity;
 
-<<<<<<< HEAD
-import java.io.Serializable;
-
-public class User_info implements Serializable {
-=======
-@SuppressWarnings("serial")
-public class User_info implements java.io.Serializable {
->>>>>>> guoxinze
+public class User_info {
 	private String accuracy;
 	private String build_id;
 	private Integer error_code;
