@@ -9,5 +9,4 @@ DataServer/bin/com/location/entity/User_info.class
 DataServer/bin/com/location/json/JSON.class
 DataServer/bin/com/location/main/Server.class
 grainInsects/.classpath
-grainInsects/.classpath
 *.classpath
