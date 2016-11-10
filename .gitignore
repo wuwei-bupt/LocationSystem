@@ -1,12 +1,4 @@
+DataServer/bin/*
 DataServer/.classpath
-DataServer/.settings/org.eclipse.jdt.core.prefs
-DataServer/bin/com/location/dao/hibernate/HibernateSessionFactory.class
-*.class
-DataServer/bin/com/location/dao/BaseDao.class
-DataServer/bin/com/location/dao/hibernate/HibernateUtil.class
-DataServer/bin/com/location/dao/Impl/BaseDAO.class
-DataServer/bin/com/location/entity/User_info.class
-DataServer/bin/com/location/json/JSON.class
-DataServer/bin/com/location/main/Server.class
+grainInsects/build/classes/*
 grainInsects/.classpath
-*.classpath
