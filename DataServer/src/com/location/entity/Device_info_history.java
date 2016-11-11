@@ -2,22 +2,22 @@ package com.location.entity;
 
 
 @SuppressWarnings("serial")
-public class Device_info_history implements java.io.Serializable{
-	//private String accuracy;
+public class Device_info_History implements java.io.Serializable{
+	private String accuracy;
 	private String build_id;
 	private Integer error_code;
 	private Integer floor_id;
-	//private String info;
+	private String info;
 	private String nearest_tag_id;
 	private Double timestamp_millisecond;
-	private String user_id;
+	private String device_id;
 	private Integer x_millimeter;
 	private Integer y_millimeter;
-	//private Integer compass;
+	private Integer compass;
 	private Boolean alarm;
 	private String region_id;
 	private String group_id;
-	public Device_info_history() {
+	public Device_info_History() {
 		//super();
 		// TODO Auto-generated constructor stub
 	}
@@ -51,11 +51,11 @@ public class Device_info_history implements java.io.Serializable{
 	public void setTimestamp_millisecond(Double timestamp_millisecond) {
 		this.timestamp_millisecond = timestamp_millisecond;
 	}
-	public String getUser_id() {
-		return user_id;
+	public String getDevice_id() {
+		return device_id;
 	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
+	public void setDevice_id(String device_id) {
+		this.device_id = device_id;
 	}
 	public Integer getX_millimeter() {
 		return x_millimeter;
@@ -86,6 +86,24 @@ public class Device_info_history implements java.io.Serializable{
 	}
 	public void setGroup_id(String group_id) {
 		this.group_id = group_id;
+	}
+	public String getAccuracy() {
+		return accuracy;
+	}
+	public void setAccuracy(String accuracy) {
+		this.accuracy = accuracy;
+	}
+	public String getInfo() {
+		return info;
+	}
+	public void setInfo(String info) {
+		this.info = info;
+	}
+	public Integer getCompass() {
+		return compass;
+	}
+	public void setCompass(Integer compass) {
+		this.compass = compass;
 	}
 	
 	
