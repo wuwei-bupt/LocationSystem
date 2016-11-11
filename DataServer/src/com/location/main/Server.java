@@ -13,7 +13,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.location.dao.Impl.BaseDAO;
 import com.location.entity.Device_info;
-import com.location.entity.Device_info_History;
+import com.location.entity.Device_info_history;
 import com.location.json.JSON;
 
 public class Server {
@@ -57,11 +57,11 @@ public class Server {
 
 					//创建一个BaseDao对象，往数据库写入POJO
 					BaseDAO<Device_info> baseDAO = new BaseDAO<>();
-					BaseDAO<Device_info_History> baseDAO2=new BaseDAO<>();
+					BaseDAO<Device_info_history> baseDAO2=new BaseDAO<>();
 					
 					//遍历JsonArray对象
 					Device_info device_info = null;
-					Device_info_History device_info_History=null;
+					Device_info_history device_info_history=null;
 					System.out.println(jsonArray.toString());
 					Iterator it = jsonArray.iterator();
 					while(it.hasNext()){
@@ -73,11 +73,11 @@ public class Server {
 						
 						//JsonElement转换为JavaBean对象
 						device_info = gson.fromJson(e, Device_info.class);
-						device_info_History=gson.fromJson(e, Device_info_History.class);
+						device_info_history=gson.fromJson(e, Device_info_history.class);
 //						System.out.println(user_info.getUser_id()+' '+user_info.getTimestamp_millisecond());
 						baseDAO.update(device_info);
-						baseDAO2.create(device_info_History);
-						System.out.println(device_info_History.getDevice_id()+" ======== "+device_info_History.getTimestamp_millisecond());
+						baseDAO2.create(device_info_history);
+						System.out.println(device_info_history.getDevice_id()+" ======== "+device_info_history.getTimestamp_millisecond());
 						System.out.println(device_info.getDevice_id()+" === "+device_info.getTimestamp_millisecond());
 					}
 					
