@@ -7,7 +7,7 @@ import javax.persistence.Table;
 
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "device_info")
+@Table(name = "user_info")
 public class Prisoner implements java.io.Serializable{
 	private String accuracy;
 	private String build_id;
