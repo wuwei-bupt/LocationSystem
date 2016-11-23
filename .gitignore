@@ -11,3 +11,4 @@ DataServer/bin/com/location/main/Server.class
 grainInsects/.classpath
 grainInsects/.classpath
 *.classpath
+DataServer/src/com/location/entity/User_info_History.hbm.xml
