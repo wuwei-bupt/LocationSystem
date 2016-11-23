@@ -199,7 +199,7 @@
 
 	<servlet-mapping>
 		<servlet-name>grainInsects</servlet-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/</url-pattern>
 	</servlet-mapping>
 
 	<!-- listener用来监听web应用在web容器中运行时发生的各种事件 -->

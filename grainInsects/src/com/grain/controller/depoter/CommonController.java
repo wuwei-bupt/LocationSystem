@@ -526,13 +526,15 @@ public class CommonController {
 								@RequestParam("op_parameter") String op_parameter){
 
 		
-	    if(op_name == "realtime"){
+	    if(op_name.equals("realtime")){
+	    		System.out.println(op_name + " " + op_parameter);
 				List<Prisoner> l = prisonerService.findByParam(op_parameter);	
 				List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
 				Prisoner p = null;
 				for(int i=0;i<l.size();i++){
 					HashMap<String, String> hashMap = new HashMap<String, String>();
 					p = l.get(i);
+					System.out.println(p.getUser_id()+" "+p.getUser_id()+" "+String.valueOf(p.getX_millimeter())+" "+String.valueOf(p.getY_millimeter()));
 					hashMap.put("UUID", p.getUser_id());
 					hashMap.put("status", String.valueOf(p.getError_code()));
 					hashMap.put("x",String.valueOf(p.getX_millimeter()));
@@ -546,4 +548,17 @@ public class CommonController {
 	    	return null;
 	    }
 	}
+	
+	@RequestMapping(value = "/prison_add", method =RequestMethod.POST)
+	public String addPrisoner(HttpServletRequest request){
+	
+		//HttpSession session = request.getSession();
+		System.out.println(request.getParameter("InputEquipmentID"));
+		System.out.println(request.getParameter("InputMAC"));
+		//System.out.println(session.getAttribute("InputEquipmentID"));
+		//System.out.println(session.getAttribute("InputMAC"));
+		
+		return null;
+	}
+
 }

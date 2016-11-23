@@ -189,6 +189,18 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					<iframe src="resources/views/portal/index.jsp" frameborder=0
 						style="border: 0; width: 100%; height: 98%;"> </iframe>
 				</div>
+				
+		<!--  <div title="6f" data-options="border:false"
+					style="overflow: hidden;">
+					<iframe src="resources/views/portal/point_d.jsp" frameborder=0
+						style="border: 0; width: 100%; height: 98%;"> </iframe>
+				</div>   -->
+				<div title="MAC" data-options="border:false"
+					style="overflow: hidden;">
+					<iframe src="resources/views/portal/page-groupManage.html" frameborder=0
+						style="border: 0; width: 100%; height: 98%;"> </iframe>
+				</div>
+				
 			</div>
 		</div>
 

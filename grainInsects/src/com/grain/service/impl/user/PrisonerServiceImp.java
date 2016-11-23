@@ -20,7 +20,7 @@ public class PrisonerServiceImp extends BaseServiceImpl<Prisoner, String> implem
 	@Override
 	public List<Prisoner> findByParam(String choice) {
 		// TODO Auto-generated method stub
-		if(choice == "all"){
+		if(choice.equals("all")){
 			return prisonerDao.findAll();
 		}else{
 			return null;
