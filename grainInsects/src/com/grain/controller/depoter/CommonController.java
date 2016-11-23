@@ -44,15 +44,18 @@ import com.grain.entity.page.Depot;
 import com.grain.entity.user.DepotUser;
 import com.grain.service.AreaService;
 import com.grain.service.CaptchaService;
+import com.grain.service.DeviceRealdataService;
 import com.grain.service.GrainbinService;
 import com.grain.service.GraindepotService;
 import com.grain.service.GraindirectionService;
 import com.grain.service.RSAService;
 import com.grain.service.user.DepotUserService;
+import com.grain.service.user.DeviceService;
 import com.grain.service.user.PrisonerService;
 import com.grain.util.SettingUtils;
 import com.grain.util.SpringUtils;
 import com.grain.util.WebUtils;
+import com.location.entity.Device;
 
 /**
  * Controller - 共用
@@ -86,6 +89,9 @@ public class CommonController {
 	
 	@Resource(name = "prisonerServiceImpl")
 	PrisonerService prisonerService;
+	
+	@Resource(name = "deviceServiceImpl")
+	DeviceService deviceService;
 	/**
 	 * 网站关闭
 	 */
@@ -106,7 +112,7 @@ public class CommonController {
 	public @ResponseBody
 	Map<String, String> publicKey(HttpServletRequest request) {
 		RSAPublicKey publicKey = rsaService.generateKey(request);
-		Map<String, String> data = new HashMap<String, String>();
+		Map<String, String> data = new HashMap<String, String>(); 
 		data.put("modulus", Base64.encodeBase64String(publicKey.getModulus().toByteArray()));
 		data.put("exponent", Base64.encodeBase64String(publicKey.getPublicExponent().toByteArray()));
 		return data;
@@ -545,5 +551,26 @@ public class CommonController {
 	    }else{
 	    	return null;
 	    }
+	}
+	
+	@RequestMapping(value = "/management/device_addOrUpdate", method =RequestMethod.POST)
+	@ResponseBody
+	public Json addOrUpdatePrisoner(HttpServletRequest request){
+		Json j = new Json();
+		Device device = new Device();
+		String equipmentID = request.getParameter("InputEquipmentID");
+		String deviceMAC = request.getParameter("InputMAC");
+		device.setDevice_code(equipmentID);
+		device.setDevice_mac(deviceMAC);
+		try{
+			deviceService.update(device);
+			j.setSuccess(true);
+			j.setMsg("添加成功!");
+		}catch (Exception exception){
+			j.setSuccess(false);
+			j.setMsg(exception.getMessage());
+		}
+		
+		return j;
 	}
 }
