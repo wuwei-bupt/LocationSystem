@@ -570,8 +570,8 @@ public class CommonController {
 
 
 	@RequestMapping(value = "/management/device_addOrUpdate", method =RequestMethod.POST)
-	@ResponseBody
-	public Json addOrUpdatePrisoner(HttpServletRequest request){
+	public @ResponseBody
+	Json addOrUpdatePrisoner(HttpServletRequest request){
 		Json j = new Json();
 		Device device = new Device();
 		String equipmentID = request.getParameter("InputEquipmentID");
