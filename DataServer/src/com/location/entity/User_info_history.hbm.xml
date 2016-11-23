@@ -1,39 +1,28 @@
-<?xml version="1.0"?>
-<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
-"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
-<!-- Generated 2016-10-20 20:34:54 by Hibernate Tools 3.5.0.Final -->
-<hibernate-mapping>
-    <class name="com.location.entity.User_info_history" table="user_info_history">
-        <composite-id>
-        	<key-property name="user_id" column="user_id" type="string"/>
-        	<key-property name="timestamp_millisecond" type="java.lang.Double"/>
+<?xml version="1.0"?>  
+<!DOCTYPE hibernate-mapping PUBLIC   
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN"  
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+      
+<hibernate-mapping package="com.location.entity">
+    <!--生成默认为user的数据库表-->  
+    <class name="User_info_History" table="user_info_history">  
+        <composite-id >  
+            <!-- 算法的核心思想是结合机器的网卡、当地时间、一个随机数来生成GUID -->  
+            <!-- <generator class="native"></generator> -->
+            <key-property name="user_id" column="user_id" ></key-property>
+            <key-property name="timestamp_millisecond" column="timestamp_millisecond" ></key-property>
         </composite-id>
-        <property name="build_id" type="java.lang.String">
-            <column name="build_id" />
-        </property>
-        <property name="error_code" type="java.lang.Integer">
-            <column name="error_code" />
-        </property>
-        <property name="floor_id" type="java.lang.Integer">
-            <column name="floor_id" />
-        </property>
-        <property name="nearest_tag_id" type="java.lang.String">
-            <column name="nearest_tag_id" />
-        </property>
-        <property name="x_millimeter" type="java.lang.Integer">
-            <column name="x_millimeter" />
-        </property>
-        <property name="y_millimeter" type="java.lang.Integer">
-            <column name="y_millimeter" />
-        </property>
-        <property name="alarm" type="java.lang.Boolean">
-            <column name="alarm" />
-        </property>
-        <property name="region_id" type="java.lang.String">
-            <column name="region_id" />
-        </property>
-        <property name="group_id" type="java.lang.String">
-            <column name="group_id" />
-        </property>
-    </class>
+        <property name="accuracy" column="accuracy"></property>  
+        <property name="build_id" column="build_id"></property>  
+        <property name="floor_id" column="floor_id"></property>  
+        <property name="error_code" column="error_code"></property>  
+        <property name="nearest_tag_id" column="nearest_tag_id"></property>
+<!--         <property name="timestamp_millisecond" column="timestamp_millisecond"></property>  -->
+        <property name="x_millimeter" column="x_millimeter"></property> 
+        <property name="y_millimeter" column="y_millimeter"></property> 
+        <property name="alarm" column="alarm"></property>   
+        <property name="info" column="info"></property>   
+        <property name="compass" column="compass"></property>     
+    </class>  
+      
 </hibernate-mapping>
