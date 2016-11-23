@@ -555,7 +555,7 @@ public class CommonController {
 	    }
 	}
 	
-<<<<<<< HEAD
+
 	@RequestMapping(value = "/prison_add", method =RequestMethod.POST)
 	public String addPrisoner(HttpServletRequest request){
 	
@@ -568,7 +568,7 @@ public class CommonController {
 		return null;
 	}
 
-=======
+
 	@RequestMapping(value = "/management/device_addOrUpdate", method =RequestMethod.POST)
 	@ResponseBody
 	public Json addOrUpdatePrisoner(HttpServletRequest request){
@@ -589,5 +589,5 @@ public class CommonController {
 		
 		return j;
 	}
->>>>>>> back-stage
+
 }
