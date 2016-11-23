@@ -2,99 +2,11 @@ package com.location.main;
 
 import java.io.UnsupportedEncodingException;
 import java.util.Iterator;
-
-<<<<<<< HEAD
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-
 import com.google.gson.*;
 import com.location.dao.Impl.BaseDAO;
 import com.location.entity.User_info;
-import com.location.entity.User_info_History;
 import com.location.json.JSON;
-
-public class Server {
-
-	public static final String user_id_list="http://tz.seekcy.com:8085/WebLocate/LocateResults?user_ids=1918E0000020,1918E0000021,1918E0000022&time_period=5000";
-	
-	public static void main(String[] args) {
-		
-		System.out.println("¿ªÊ¼½ÓÊÜÊı¾İ¡£¡£¡£");
-		
-		Runnable runnable=new Runnable() {
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					String json = JSON.getReturnData(user_id_list);
-					System.out.println(json);
-					
-//					String json = "[{\"accuracy\":4.0,\"build_id\":\"26000\",\"error_code\":0,\"floor_id\":4,\"info\":\"\",\"nearest_tag_id\":\"0\",\"timestamp_millisecond\":1459137333190.0,\"user_id\":\"84EB185C9F5A\",\"x_millimeter\":44937,\"y_millimeter\":24413,\"compass\":300,\"alarm\":false},"
-//							+ "{\"accuracy\":4.0,\"build_id\":\"26000\",\"error_code\":0,\"floor_id\":4,\"info\":\"\",\"nearest_tag_id\":\"0\",\"timestamp_millisecond\":1459137333190.0,\"user_id\":\"84EB185C9F5B\",\"x_millimeter\":44937,\"y_millimeter\":24413,\"compass\":300,\"alarm\":false}]";
-					
-					//´´½¨Ò»¸öGson¶ÔÏó
-					Gson gson = new Gson();
-					//´´½¨Ò»¸öJsonParser
-					JsonParser parser = new JsonParser();
-					//Í¨¹ıJsonParser¶ÔÏó¿ÉÒÔ°Ñjson¸ñÊ½µÄ×Ö·û´®½âÎö³ÉÒ»¸öJsonElement¶ÔÏó
-					JsonElement el = parser.parse(json);
-					//
-					JsonObject jObject = el.getAsJsonObject();
-					
-//					String jString = jObject.get("data").toString();
-//					System.out.println(jString);
-					JsonElement jElement = jObject.get("data");
-					//°ÑJsonElement¶ÔÏó×ª»»³ÉJsonArray
-					JsonArray jsonArray = null;
-					
-					if(jElement.isJsonArray()){
-						System.out.println("yes");
-						jsonArray = jElement.getAsJsonArray();
-					}
-
-					//´´½¨Ò»¸öBaseDao¶ÔÏó£¬ÍùÊı¾İ¿âĞ´ÈëPOJO
-					BaseDAO<User_info> baseDAO = new BaseDAO<>();
-					BaseDAO<User_info_History> baseDAO2=new BaseDAO<>();
-					
-					//±éÀúJsonArray¶ÔÏó
-					User_info user_info = null;
-					User_info_History user_info_History=null;
-					System.out.println(jsonArray.toString());
-					Iterator it = jsonArray.iterator();
-					while(it.hasNext()){
-						JsonElement jsonElement = (JsonElement) it.next();
-						String str = jsonElement.getAsString();
-						System.out.println(str);
-						
-						JsonElement e = parser.parse(str);
-						
-						//JsonElement×ª»»ÎªJavaBean¶ÔÏó
-						user_info = gson.fromJson(e, User_info.class);
-						user_info_History=gson.fromJson(e, User_info_History.class);
-//						System.out.println(user_info.getUser_id()+' '+user_info.getTimestamp_millisecond());
-						baseDAO.update(user_info);
-						baseDAO2.create(user_info_History);
-						System.out.println(user_info_History.getUser_id()+" ======== "+user_info_History.getTimestamp_millisecond());
-						System.out.println(user_info.getUser_id()+" === "+user_info.getTimestamp_millisecond());
-					}
-					
-				} catch (UnsupportedEncodingException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		};
-		ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-		// µÚ¶ş¸ö²ÎÊıÎªÊ×´ÎÖ´ĞĞµÄÑÓÊ±Ê±¼ä£¬µÚÈı¸ö²ÎÊıÎª¶¨Ê±Ö´ĞĞµÄ¼ä¸ôÊ±¼ä  
-        service.scheduleAtFixedRate(runnable, 1, 3, TimeUnit.SECONDS);
-		
-=======
-import com.google.gson.*;
-import com.location.dao.Impl.BaseDAO;
-import com.location.entity.User_info;
 import com.location.entity.Device_info_history;
-import com.location.json.JSON;
 
 public class Server extends Thread {
 	
@@ -110,29 +22,29 @@ public class Server extends Thread {
 				String user_id_list = "http://tz.seekcy.com:8085/WebLocate/LocateResults?user_ids=1918E0000020,1918E0000021,1918E0000022&time_period=5000";
 				String json = JSON.getReturnData(user_id_list);
 				
-				//åˆ›å»ºä¸€ä¸ªGsonå¯¹è±¡
+				//é’æ¶˜ç¼“æ¶“ï¿½æ¶“ç‹¦sonç€µç¡…è–„
 				Gson gson = new Gson();
-				//åˆ›å»ºä¸€ä¸ªJsonParser
+				//é’æ¶˜ç¼“æ¶“ï¿½æ¶“ç‹«sonParser
 				JsonParser parser = new JsonParser();
-				//é€šè¿‡JsonParserå¯¹è±¡å¯ä»¥æŠŠjsonæ ¼å¼çš„å­—ç¬¦ä¸²è§£ææˆä¸€ä¸ªJsonElementå¯¹è±¡
+				//é–«æ°³ç¹ƒJsonParserç€µç¡…è–„é™îˆ™äº’é¶å¦€sonéç…ç´¡é¨å‹«ç“§ç»—ï¸¿è¦†ç‘™ï½†ç€½é´æ„ªç«´æ¶“ç‹«sonElementç€µç¡…è–„
 				JsonElement el = parser.parse(json);
 				//
 				JsonObject jObject = el.getAsJsonObject();
 				
 				JsonElement jElement = jObject.get("data");
-				//æŠŠJsonElementå¯¹è±¡è½¬æ¢æˆJsonArray
+				//é¶å¥sonElementç€µç¡…è–„æî„å´²é´æ€sonArray
 				JsonArray jsonArray = null;
 				
 				if(jElement.isJsonArray()){
 					jsonArray = jElement.getAsJsonArray();
 				}
 
-				//åˆ›å»ºä¸€ä¸ªBaseDaoå¯¹è±¡ï¼Œå¾€æ•°æ®åº“å†™å…¥POJO
+				//é’æ¶˜ç¼“æ¶“ï¿½æ¶“ç‹ŸaseDaoç€µç¡…è–„é”›å±½ç·šéç‰ˆåµæ´æ’³å•“éî™–OJO
 				BaseDAO<User_info> baseDAO = new BaseDAO<>();
 				BaseDAO<Device_info_history> baseDAO2 = new BaseDAO<>();
 				//BaseDAO<User_name> baseDAO3 = new BaseDAO<>();
 				
-				//éå†JsonArrayå¯¹è±¡
+				//é–¬å¶…å·»JsonArrayç€µç¡…è–„
 				Device_info_history user_info_history= null;
 				User_info user_info = null;
 				//User_name user_name = new User_name();
@@ -145,7 +57,7 @@ public class Server extends Thread {
 					
 					JsonElement e = parser.parse(str);
 					
-					//JsonElementè½¬æ¢ä¸ºJavaBeanå¯¹è±¡
+					//JsonElementæî„å´²æ¶“ç¯”avaBeanç€µç¡…è–„
 					user_info = gson.fromJson(e, User_info.class);
 					user_info_history = gson.fromJson(e, Device_info_history.class);
 		
@@ -170,7 +82,6 @@ public class Server extends Thread {
 			}
 		}				
 
->>>>>>> guoxinze
 	}
 		
 }

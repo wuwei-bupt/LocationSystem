@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 DataServer/.classpath
 DataServer/.settings/org.eclipse.jdt.core.prefs
 DataServer/bin/com/location/dao/hibernate/HibernateSessionFactory.class
@@ -14,3 +15,7 @@ grainInsects/.classpath
 DataServer/src/com/location/entity/User_info_History.hbm.xml
 DataServer/src/com/location/entity/User_info_History.hbm.xml
 DataServer/src/com/location/entity/User_info_History.hbm.xml
+=======
+DataServer/bin/*
+grainInsects/build/classes/*
+>>>>>>> master
