@@ -44,7 +44,6 @@ import com.grain.entity.page.Depot;
 import com.grain.entity.user.DepotUser;
 import com.grain.service.AreaService;
 import com.grain.service.CaptchaService;
-import com.grain.service.DeviceRealdataService;
 import com.grain.service.GrainbinService;
 import com.grain.service.GraindepotService;
 import com.grain.service.GraindirectionService;
@@ -56,6 +55,8 @@ import com.grain.util.SettingUtils;
 import com.grain.util.SpringUtils;
 import com.grain.util.WebUtils;
 import com.location.entity.Device;
+import com.location.entity.UserInfo;
+import com.location.service.user.UserInfoService;
 
 /**
  * Controller - 共用
@@ -92,6 +93,8 @@ public class CommonController {
 	
 	@Resource(name = "deviceServiceImpl")
 	DeviceService deviceService;
+	@Resource(name="userInfoServiceImpl")
+	UserInfoService userInfoService;
 	/**
 	 * 网站关闭
 	 */
@@ -571,7 +574,7 @@ public class CommonController {
 
 	@RequestMapping(value = "/management/device_addOrUpdate", method =RequestMethod.POST)
 	public @ResponseBody
-	Json addOrUpdatePrisoner(HttpServletRequest request){
+	Json addOrUpdateDevice(HttpServletRequest request){
 		Json j = new Json();
 		Device device = new Device();
 		String equipmentID = request.getParameter("InputEquipmentID");
@@ -588,6 +591,33 @@ public class CommonController {
 		}
 		
 		return j;
+	}
+	@RequestMapping(value = "/management/prisoner_addOrUpdate", method =RequestMethod.POST)
+	@ResponseBody
+	public Json addOrUpdatePrisoner(HttpServletRequest request){
+		Json json=new Json();
+		UserInfo userInfo=new UserInfo();
+		String userName=request.getParameter("InputName");
+		String userNumber=request.getParameter("InputNumber");
+		int monitor=Integer.parseInt(request.getParameter("InputMonitor"));
+		int group=Integer.parseInt(request.getParameter("InputGroup"));
+		int equiment=Integer.parseInt(request.getParameter("InputEquipment"));
+		userInfo.setUser_name(userName);
+		userInfo.setUser_code(userNumber);
+		userInfo.setRegion_id(monitor);
+		userInfo.setGroup_id(group);
+		userInfo.setDevice_id(equiment);
+		
+		try {
+			userInfoService.update(userInfo);
+			json.setSuccess(true);
+			json.setMsg("添加成功！");
+		} catch (Exception e) {
+			json.setSuccess(false);
+			json.setMsg(e.getMessage());
+		}
+		return json;
+		
 	}
 
 }
