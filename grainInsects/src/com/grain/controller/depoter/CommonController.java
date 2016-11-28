@@ -48,6 +48,7 @@ import com.grain.service.GrainbinService;
 import com.grain.service.GraindepotService;
 import com.grain.service.GraindirectionService;
 import com.grain.service.RSAService;
+import com.grain.service.impl.AreaServiceImpl;
 import com.grain.service.user.DepotUserService;
 import com.grain.service.user.DeviceService;
 import com.grain.service.user.PrisonerService;
@@ -56,6 +57,8 @@ import com.grain.util.SpringUtils;
 import com.grain.util.WebUtils;
 import com.location.entity.Device;
 import com.location.entity.UserInfo;
+import com.location.service.user.GroupInfoService;
+import com.location.service.user.RegionService;
 import com.location.service.user.UserInfoService;
 
 /**
@@ -93,8 +96,21 @@ public class CommonController {
 	
 	@Resource(name = "deviceServiceImpl")
 	DeviceService deviceService;
+	
 	@Resource(name="userInfoServiceImpl")
 	UserInfoService userInfoService;
+	
+	@Resource(name="regionServiceImpl")
+	RegionService regionService;
+	
+	@Resource(name="groupInfoServiceImpl")
+	GroupInfoService groupInfoService;
+	
+	@Resource(name="areaServiceImpl")
+	AreaService areaService1;
+	
+	@Resource(name="deviceInfoServiceImpl")
+	DeviceInfoService deviceInfoService;
 	/**
 	 * 网站关闭
 	 */
@@ -599,14 +615,18 @@ public class CommonController {
 		UserInfo userInfo=new UserInfo();
 		String userName=request.getParameter("InputName");
 		String userNumber=request.getParameter("InputNumber");
-		int monitor=Integer.parseInt(request.getParameter("InputMonitor"));
-		int group=Integer.parseInt(request.getParameter("InputGroup"));
-		int equiment=Integer.parseInt(request.getParameter("InputEquipment"));
+		String monitor=request.getParameter("InputMonitor");
+		String group=request.getParameter("InputGroup");
+		String equiment=request.getParameter("InputEquipment");
+		int region_id=regionService.findByName(monitor).getRegion_id();
+		int group_id=groupInfoService.findByName(group).getGroupId();
+		String device_mac=deviceService.findByName(equiment).getDevice_mac();
+		int device_id=deviceInfoService.findByName(device_mac).getDevice_id();
 		userInfo.setUser_name(userName);
 		userInfo.setUser_code(userNumber);
-		userInfo.setRegion_id(monitor);
-		userInfo.setGroup_id(group);
-		userInfo.setDevice_id(equiment);
+		userInfo.setRegion_id(region_id);
+		userInfo.setGroup_id(group_id);
+		userInfo.setDevice_id(device_id);
 		
 		try {
 			userInfoService.update(userInfo);

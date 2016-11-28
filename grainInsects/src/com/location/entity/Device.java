@@ -19,7 +19,7 @@ public class Device implements java.io.Serializable{
 	public void setDevice_mac(String device_mac) {
 		this.device_mac = device_mac;
 	}
-	@Column(name = "device_code")
+	@Column(name = "device_code",unique = true, nullable = false)
 	public String getDevice_code() {
 		return device_code;
 	}

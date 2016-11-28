@@ -10,11 +10,11 @@ import java.util.Set;
 import org.springframework.stereotype.Repository;
 
 import com.grain.dao.impl.BaseDaoImpl;
-import com.location.dao.user.UserInfoDAO;
+import com.location.dao.user.UserInfoDao;
 import com.location.entity.UserInfo;
 
 @Repository("userInfoDAOImpl")
-public class UserInfoDAOImpl extends BaseDaoImpl<UserInfo,String> implements UserInfoDAO {
+public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo,String> implements UserInfoDao {
 
 	
 //	@Override
