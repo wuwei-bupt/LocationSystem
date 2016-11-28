@@ -8,28 +8,53 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "ls_device_info")
-public class DeviceCloud implements java.io.Serializable{
-	private String accuracy;
+public class DeviceInfo implements java.io.Serializable{
+	private int accuracy;
 	private String build_id;
-	private Integer error_code;
-	private Integer floor_id;
+	private int error_code;
+	private int floor_id;
 	private String info;
 	private String nearest_tag_id;
-	private Double timestamp_millisecond;
-	private String user_id;
-	private Integer x_millimeter;
-	private Integer y_millimeter;
-	private Integer compass;
-	private Boolean alarm;
+	private double timestamp_millisecond;
+	private int device_id;
+	private int x_millimeter;
+	private int y_millimeter;
+	private int compass;
+	private int alarm;
+	private String device_mac;
 	
-	@Column(name = "accuracy")
-	public String getAccuracy() {
+	@Id
+	@Column(name = "device_id", unique = true, nullable = false)
+	public int getDevice_id() {
+		return device_id;
+	}
+	public void setDevice_id(int device_id) {
+		this.device_id = device_id;
+	}
+	
+	@Column(name = "device_mac", nullable = false)
+	public String getDevice_mac() {
+		return device_mac;
+	}
+	public void setDevice_mac(String device_mac) {
+		this.device_mac = device_mac;
+	}
+	@Column(name = "timestamp_millisecond", nullable = false)
+	public void setTimestamp_millisecond(double timestamp_millisecond) {
+		this.timestamp_millisecond = timestamp_millisecond;
+	}
+	public Double getTimestamp_millisecond() {
+		return timestamp_millisecond;
+	}
+	
+	@Column(name = "accuracy", nullable = false)
+	public int getAccuracy() {
 		return accuracy;
 	}
-	public void setAccuracy(String accuracy) {
+	public void setAccuracy(int accuracy) {
 		this.accuracy = accuracy;
 	}
-	@Column(name = "build_id")
+	@Column(name = "build_id", nullable = false)
 	public String getBuild_id() {
 		return build_id;
 	}
@@ -65,20 +90,11 @@ public class DeviceCloud implements java.io.Serializable{
 		this.nearest_tag_id = nearest_tag_id;
 	}
 	@Column(name = "timestamp_millisecond")
-	public Double getTimestamp_millisecond() {
-		return timestamp_millisecond;
-	}
+
 	public void setTimestamp_millisecond(Double timestamp_millisecond) {
 		this.timestamp_millisecond = timestamp_millisecond;
 	}
-	@Id
-	@Column(name = "user_id", unique = true, nullable = false)
-	public String getUser_id() {
-		return user_id;
-	}
-	public void setUser_id(String user_id) {
-		this.user_id = user_id;
-	}
+
 	@Column(name = "x_millimeter")
 	public Integer getX_millimeter() {
 		return x_millimeter;
@@ -101,10 +117,10 @@ public class DeviceCloud implements java.io.Serializable{
 		this.compass = compass;
 	}
 	@Column(name = "alarm")
-	public Boolean getAlarm() {
+	public int getAlarm() {
 		return alarm;
 	}
-	public void setAlarm(Boolean alarm) {
+	public void setAlarm(int alarm) {
 		this.alarm = alarm;
 	}
 

@@ -7,20 +7,20 @@ import org.springframework.stereotype.Repository;
 
 import com.grain.dao.impl.BaseDaoImpl;
 import com.location.dao.user.AreaDao;
-import com.location.entity.Area;
+import com.location.entity.LsArea;
 
 @Repository("areaDaoImpl")
-public class AreaDaoImpl extends BaseDaoImpl<Area, String> implements AreaDao {
+public class AreaDaoImpl extends BaseDaoImpl<LsArea, String> implements AreaDao {
 
 	@Override
-	public Area findByName(String areaName) {
+	public LsArea findByName(String areaName) {
 		// TODO Auto-generated method stub
 		if(areaName==null){
 			return null;
 		}
 		try {
 			String jpql = "select area from Area area where lower(area.areaName) = lower(:areaName)";
-			return entityManager.createQuery(jpql, Area.class).setFlushMode(FlushModeType.COMMIT).setParameter("areaName", areaName).getSingleResult();
+			return entityManager.createQuery(jpql, LsArea.class).setFlushMode(FlushModeType.COMMIT).setParameter("areaName", areaName).getSingleResult();
 		} catch (NoResultException e) {
 			return null;
 		}

@@ -7,10 +7,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.grain.service.impl.BaseServiceImpl;
 import com.location.dao.user.AreaDao;
-import com.location.entity.Area;
+import com.location.entity.LsArea;
 import com.location.service.user.AreaService;
 @Service("areaServiceImpl")
-public class AreaServiceImpl extends BaseServiceImpl<Area, String> implements AreaService {
+public class AreaServiceImpl extends BaseServiceImpl<LsArea, String> implements AreaService {
 
 	@Resource(name="areaDaoImpl")
 	private AreaDao areadao;
@@ -20,7 +20,7 @@ public class AreaServiceImpl extends BaseServiceImpl<Area, String> implements Ar
 	}
 	@Override
 	@Transactional(readOnly = true)
-	public Area findByName(String areaName) {
+	public LsArea findByName(String areaName) {
 		// TODO Auto-generated method stub
 		return areadao.findByName(areaName);
 	}

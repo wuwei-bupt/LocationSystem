@@ -8,7 +8,7 @@ import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "ls_device_mac_code")
-public class Device implements java.io.Serializable{
+public class DeviceMacCode implements java.io.Serializable{
 	private String device_mac;
 	private String device_code;
 	@Id

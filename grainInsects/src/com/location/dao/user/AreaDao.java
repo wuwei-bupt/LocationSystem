@@ -1,8 +1,8 @@
 package com.location.dao.user;
 
 import com.grain.dao.BaseDao;
-import com.location.entity.Area;
+import com.location.entity.LsArea;
 
-public interface AreaDao extends BaseDao<Area, String> {
-public Area findByName(String areaName);
+public interface AreaDao extends BaseDao<LsArea, String> {
+public LsArea findByName(String areaName);
 }

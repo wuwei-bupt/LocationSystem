@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.grain.dao.impl.BaseDaoImpl;
 import com.location.dao.user.RegionDao;
-import com.location.entity.Area;
+import com.location.entity.LsArea;
 import com.location.entity.Region;
 
 @Repository("regionDaoImpl")
