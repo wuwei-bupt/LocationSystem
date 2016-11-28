@@ -1,8 +1,8 @@
-package com.grain.service.user;
+package com.location.service.user;
 import java.util.List;
 
-import com.grain.entity.Prisoner;
 import com.grain.service.BaseService;
+import com.location.entity.Prisoner;
 
 public interface PrisonerService extends BaseService<Prisoner, String> {
 	

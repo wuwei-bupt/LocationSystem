@@ -39,7 +39,6 @@ import com.grain.entity.Area;
 import com.grain.entity.Grainbin;
 import com.grain.entity.Graindepot;
 import com.grain.entity.Graindirection;
-import com.grain.entity.Prisoner;
 import com.grain.entity.page.Depot;
 import com.grain.entity.user.DepotUser;
 import com.grain.service.AreaService;
@@ -50,13 +49,15 @@ import com.grain.service.GraindirectionService;
 import com.grain.service.RSAService;
 import com.grain.service.user.DepotUserService;
 import com.grain.service.user.DeviceMacCodeService;
-import com.grain.service.user.PrisonerService;
 import com.grain.util.SettingUtils;
 import com.grain.util.SpringUtils;
 import com.grain.util.WebUtils;
 import com.location.entity.DeviceMacCode;
+import com.location.entity.Prisoner;
 import com.location.entity.UserInfo;
+import com.location.service.user.DeviceInfoService;
 import com.location.service.user.GroupInfoService;
+import com.location.service.user.PrisonerService;
 import com.location.service.user.RegionService;
 import com.location.service.user.UserInfoService;
 
@@ -109,7 +110,7 @@ public class CommonController {
 	AreaService areaService1;
 	
 	@Resource(name="deviceInfoServiceImpl")
-	//DeviceInfoService deviceInfoService;
+	DeviceInfoService deviceInfoService;
 	/**
 	 * 网站关闭
 	 */
@@ -620,12 +621,12 @@ public class CommonController {
 		int region_id=regionService.findByName(monitor).getRegion_id();
 		int group_id=groupInfoService.findByName(group).getGroupId();
 		String device_mac=deviceMacCodeService.findByName(equiment).getDevice_mac();
-		//int device_id=deviceInfoService.findByName(device_mac).getDevice_id();
+		int device_id=deviceInfoService.findByName(device_mac).getDevice_id();
 		userInfo.setUser_name(userName);
 		userInfo.setUser_code(userNumber);
 		userInfo.setRegion_id(region_id);
 		userInfo.setGroup_id(group_id);
-		//userInfo.setDevice_id(device_id);
+		userInfo.setDevice_id(device_id);
 		
 		try {
 			userInfoService.update(userInfo);

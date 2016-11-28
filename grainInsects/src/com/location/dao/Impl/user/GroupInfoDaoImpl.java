@@ -1,7 +1,5 @@
 package com.location.dao.Impl.user;
 
-import java.security.acl.Group;
-
 import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
 

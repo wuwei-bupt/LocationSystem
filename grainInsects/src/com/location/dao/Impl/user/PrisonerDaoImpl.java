@@ -1,11 +1,11 @@
-package com.grain.dao.impl.user;
+package com.location.dao.Impl.user;
 
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 import com.grain.dao.impl.BaseDaoImpl;
-import com.grain.dao.user.PrisonerDao;
-import com.grain.entity.Prisoner;
+import com.location.dao.user.PrisonerDao;
+import com.location.entity.Prisoner;
 
 
 @Repository("prisonerDaoImpl")

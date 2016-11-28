@@ -1,14 +1,14 @@
-package com.grain.service.impl.user;
+package com.location.service.impl.user;
 
 import java.util.List;
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
 
-import com.grain.dao.user.PrisonerDao;
-import com.grain.entity.Prisoner;
 import com.grain.service.impl.BaseServiceImpl;
-import com.grain.service.user.PrisonerService;
+import com.location.dao.user.PrisonerDao;
+import com.location.entity.Prisoner;
+import com.location.service.user.PrisonerService;
 
 @Service("prisonerServiceImpl")
 public class PrisonerServiceImp extends BaseServiceImpl<Prisoner, String> implements PrisonerService {

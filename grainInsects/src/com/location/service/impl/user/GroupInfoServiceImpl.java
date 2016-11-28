@@ -14,7 +14,7 @@ import com.location.service.user.GroupInfoService;
 public class GroupInfoServiceImpl extends BaseServiceImpl<GroupInfo, String> implements	GroupInfoService {
 	
 	@Resource(name = "groupDaoImpl")
-	private GroupInfoDao groupindoDao;
+	private GroupInfoDao groupInfoDao;
 	
 	@Resource(name = "groupDaoImpl")
 	public void setBaseDao(GroupInfoDao groupInfoDao) {
@@ -25,7 +25,7 @@ public class GroupInfoServiceImpl extends BaseServiceImpl<GroupInfo, String> imp
 	@Transactional(readOnly = true)
 	public GroupInfo findByName(String groupName) {
 		// TODO Auto-generated method stub
-		return groupindoDao.findByName(groupName);
+		return groupInfoDao.findByName(groupName);
 	}
 
 }
