@@ -2,11 +2,13 @@ package com.location.service.impl.user;
 
 import javax.annotation.Resource;
 
+import org.springframework.stereotype.Service;
+
 import com.grain.service.impl.BaseServiceImpl;
 import com.location.dao.user.DeviceInfoDao;
 import com.location.entity.DeviceInfo;
 import com.location.service.user.DeviceInfoService;
-
+@Service("deviceInfoServiceImpl")
 public class DeviceInfoServiceImpl extends BaseServiceImpl<DeviceInfo, String> implements DeviceInfoService {
 
 	@Resource(name = "deviceInfoDaoImpl")

@@ -8,7 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 @SuppressWarnings("serial")
 @Entity
-@Table(name = "user_info")
+@Table(name = "ls_user_info")
 public class UserInfo implements Serializable{
 	private int user_id;
 	private String user_code;

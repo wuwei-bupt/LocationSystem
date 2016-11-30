@@ -12,7 +12,7 @@
 	<context:property-placeholder location="classpath*:/grain.properties" ignore-resource-not-found="true" ignore-unresolvable="true" />
 
 	<!-- 不扫描com.grain包里面有@Controller的bean -->
-	<context:component-scan base-package="com.grain">
+	<context:component-scan base-package="com">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 

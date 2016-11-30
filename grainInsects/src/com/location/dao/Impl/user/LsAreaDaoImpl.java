@@ -6,11 +6,11 @@ import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
 
 import com.grain.dao.impl.BaseDaoImpl;
-import com.location.dao.user.AreaDao;
+import com.location.dao.user.LsAreaDao;
 import com.location.entity.LsArea;
 
-@Repository("areaDaoImpl")
-public class AreaDaoImpl extends BaseDaoImpl<LsArea, String> implements AreaDao {
+@Repository("lsAreaDaoImpl")
+public class LsAreaDaoImpl extends BaseDaoImpl<LsArea, String> implements LsAreaDao {
 
 	@Override
 	public LsArea findByName(String areaName) {

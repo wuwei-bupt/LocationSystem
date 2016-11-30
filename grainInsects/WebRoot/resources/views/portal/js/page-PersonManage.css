@@ -8,12 +8,15 @@ body{
 	margin:5px;
 }
 .row{
-	position:relative;
 	float:right;
-	width:800px;
+	width:500px;
+}
+.form-control{
+	float:left;
+	margin:8px;
 }
 #list{
-	width:100%;
+	width:80%;
 	float:left;
 	padding:20px;
 }
@@ -22,10 +25,4 @@ body{
 }
 #wholePage{
 	width:80%;
-}
-#create{
-	width:35px;
-	position:absolute;
-	top:9px;
-	right:10px;	
 }

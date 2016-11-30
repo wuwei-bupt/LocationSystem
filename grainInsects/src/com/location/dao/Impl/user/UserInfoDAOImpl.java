@@ -13,7 +13,7 @@ import com.grain.dao.impl.BaseDaoImpl;
 import com.location.dao.user.UserInfoDao;
 import com.location.entity.UserInfo;
 
-@Repository("userInfoDAOImpl")
+@Repository("userInfoDaoImpl")
 public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo,String> implements UserInfoDao {
 
 	

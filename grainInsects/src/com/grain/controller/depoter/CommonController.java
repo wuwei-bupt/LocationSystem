@@ -57,6 +57,7 @@ import com.location.entity.Prisoner;
 import com.location.entity.UserInfo;
 import com.location.service.user.DeviceInfoService;
 import com.location.service.user.GroupInfoService;
+import com.location.service.user.LsAreaService;
 import com.location.service.user.PrisonerService;
 import com.location.service.user.RegionService;
 import com.location.service.user.UserInfoService;
@@ -106,8 +107,8 @@ public class CommonController {
 	@Resource(name="groupInfoServiceImpl")
 	GroupInfoService groupInfoService;
 	
-	@Resource(name="areaServiceImpl")
-	AreaService areaService1;
+	@Resource(name="lsAreaServiceImpl")
+	LsAreaService areaService1;
 	
 	@Resource(name="deviceInfoServiceImpl")
 	DeviceInfoService deviceInfoService;

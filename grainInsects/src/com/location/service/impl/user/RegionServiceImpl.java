@@ -12,7 +12,7 @@ import com.location.service.user.RegionService;
 @Service("regionServiceImpl")
 public class RegionServiceImpl extends BaseServiceImpl<Region, String> implements RegionService {
 
-	@Resource(name="regionDapImpl")
+	@Resource(name="regionDaoImpl")
 	private RegionDao regionDao;
 	
 	@Resource(name="regionDaoImpl")

@@ -13,10 +13,10 @@ import com.location.service.user.GroupInfoService;
 @Service("groupInfoServiceImpl")
 public class GroupInfoServiceImpl extends BaseServiceImpl<GroupInfo, String> implements	GroupInfoService {
 	
-	@Resource(name = "groupDaoImpl")
+	@Resource(name = "groupInfoDaoImpl")
 	private GroupInfoDao groupInfoDao;
 	
-	@Resource(name = "groupDaoImpl")
+	@Resource(name = "groupInfoDaoImpl")
 	public void setBaseDao(GroupInfoDao groupInfoDao) {
 		super.setBaseDao(groupInfoDao);
 	}

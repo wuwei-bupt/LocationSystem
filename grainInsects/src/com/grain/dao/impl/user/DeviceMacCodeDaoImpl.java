@@ -18,7 +18,7 @@ public class DeviceMacCodeDaoImpl extends BaseDaoImpl<DeviceMacCode, String>impl
 			return null;
 		}
 		try {
-			String jpql = "select deviceMacCode from DeviceMacCode deviceMacCode where lower(deviceMacCode.devce_code) = lower(:device_code)";
+			String jpql = "select deviceMacCode from DeviceMacCode deviceMacCode where lower(deviceMacCode.device_code) = lower(:device_code)";
 			return entityManager.createQuery(jpql, DeviceMacCode.class).setFlushMode(FlushModeType.COMMIT).setParameter("device_code", device_code).getSingleResult();
 		} catch (NoResultException e) {
 			return null;

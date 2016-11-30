@@ -8,15 +8,14 @@ import com.grain.service.BaseService;
 import com.grain.service.impl.BaseServiceImpl;
 import com.location.dao.user.UserInfoDao;
 import com.location.entity.UserInfo;
+import com.location.service.user.UserInfoService;
 
 @Service("userInfoServiceImpl")
-public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String>
-		implements
-			BaseService<UserInfo, String> {
+public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String>implements UserInfoService {
 
-	@Resource(name = "userDaoImpl")
+	@Resource(name = "userInfoDaoImpl")
 	private UserInfoDao userInfoDao;
-	@Resource(name = "userDaoImpl")
+	@Resource(name = "userInfoDaoImpl")
 	public void setBaseDao(UserInfoDao userInfoDao) {
 		super.setBaseDao(userInfoDao);
 	}
