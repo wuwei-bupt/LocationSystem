@@ -1,5 +1,7 @@
 package com.location.dao.Impl.user;
 
+import java.util.List;
+
 import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
 
@@ -23,5 +25,11 @@ public class DeviceInfoDaoImpl extends BaseDaoImpl<DeviceInfo, String> implement
 		} catch (NoResultException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public List<DeviceInfo> findAll() {
+		// TODO Auto-generated method stub
+		return findAll1();
 	}
 }

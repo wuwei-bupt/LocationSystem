@@ -52,12 +52,12 @@ import com.grain.service.user.DeviceMacCodeService;
 import com.grain.util.SettingUtils;
 import com.grain.util.SpringUtils;
 import com.grain.util.WebUtils;
+import com.location.entity.DeviceInfo;
 import com.location.entity.DeviceMacCode;
-import com.location.entity.Prisoner;
+import com.location.entity.PrisonerInfo;
 import com.location.entity.UserInfo;
 import com.location.service.user.DeviceInfoService;
 import com.location.service.user.GroupInfoService;
-import com.location.service.user.PrisonerService;
 import com.location.service.user.RegionService;
 import com.location.service.user.UserInfoService;
 
@@ -91,8 +91,8 @@ public class CommonController {
 	@Resource(name = "baiduMapApi")
 	BaiduMapApi baidu;
 	
-	@Resource(name = "prisonerServiceImpl")
-	PrisonerService prisonerService;
+//	@Resource(name = "prisonerServiceImpl")
+//	PrisonerService prisonerService;
 	
 	@Resource(name = "deviceMacCodeServiceImpl")
 	DeviceMacCodeService deviceMacCodeService;
@@ -205,6 +205,7 @@ public class CommonController {
 
 	@RequestMapping("/main")
 	public String mainEntrance(HttpSession session,ModelMap model) {
+		System.out.println("11");
 		
 		Principal p =(Principal) session.getAttribute(CommonAttributes.Principal);
 		String user="";
@@ -545,22 +546,68 @@ public class CommonController {
 		return !depotuserSrv.existUserName(username);
 	}
 	
+	
+//	// add by wuwei
+//	private class PrisonInfo{
+//		private int user_name;
+//		private String status;
+//		private String x;
+//		private String y;
+//		private String head_url;
+//		
+//		
+//		// set the object
+//		public PrisonInfo() {
+//		}
+//		
+//		public void setUser_name(String user_name) {
+//			this.user_name = user_name;
+//		}
+//		
+//	 
+//
+//		public void getInfo(DeviceInfo deviceInfo) {
+//			// TODO Auto-generated method stub
+//			user_name = deviceInfo.getDevice_id();
+//			//...
+//			
+//		}
+//		
+//	}
+
+//add by guoxinze
 	@RequestMapping(value = "/prison_trace", method = RequestMethod.POST)
 	public @ResponseBody
 	Json getPrisonerTrace(@RequestParam("op_name") String op_name,
 								@RequestParam("op_parameter") String op_parameter){
-
 		
+//		Json j = new Json();
+//		// isSuccess
+//		j.setSuccess(true);
+//		// errorMessage
+//		j.setMsg("添加成功!");
+//		// object
+//		List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
+//		 
+//		List<DeviceInfo> l = deviceInfoService.findByParam(op_parameter);
+//		for(int i=0;i<l.size();i++){
+//			PrisonInfo prisonInfo = new PrisonInfo();
+//			prisonInfo.getInfo();
+//			ls.add(prisonInfo.toHashMap());
+//			// add info
+//		}
+//		j.setObj(ls);
+//			
 	    if(op_name.equals("realtime")){
 	    		System.out.println(op_name + " " + op_parameter);
-				List<Prisoner> l = prisonerService.findByParam(op_parameter);	
+				List<DeviceInfo> l = deviceInfoService.findByParam(op_parameter);	
 				List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
-				Prisoner p = null;
+				DeviceInfo p = null;
 				for(int i=0;i<l.size();i++){
 					HashMap<String, String> hashMap = new HashMap<String, String>();
 					p = l.get(i);
-					System.out.println(p.getUser_id()+" "+p.getUser_id()+" "+String.valueOf(p.getX_millimeter())+" "+String.valueOf(p.getY_millimeter()));
-					hashMap.put("UUID", p.getUser_id());
+					System.out.println(p.getDevice_id()+" "+p.getDevice_id()+" "+String.valueOf(p.getX_millimeter())+" "+String.valueOf(p.getY_millimeter()));
+					hashMap.put("UUID", String.valueOf(p.getDevice_id()));
 					hashMap.put("status", String.valueOf(p.getError_code()));
 					hashMap.put("x",String.valueOf(p.getX_millimeter()));
 					hashMap.put("y",String.valueOf(p.getY_millimeter()));
@@ -574,7 +621,36 @@ public class CommonController {
 	    }
 	}
 	
-
+	@RequestMapping(value = "/allPrisoner", method =RequestMethod.POST)
+	public @ResponseBody
+	Json getAllPrisoner(){
+		Json j = new Json();
+		try{
+			List<DeviceInfo> l = deviceInfoService.findByParam(null);
+			List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
+			DeviceInfo p = null;
+			PrisonerInfo pi = new PrisonerInfo();
+			for(int i=0;i<l.size();i++){
+				HashMap<String, String> hashMap = new HashMap<String, String>();
+				p = l.get(i);
+				System.out.println(p.getDevice_id()+" "+p.getDevice_id()+" "+String.valueOf(p.getX_millimeter())+" "+String.valueOf(p.getY_millimeter()));
+				UserInfo ui = userInfoService.findByDeviceID(p.getDevice_id());
+				pi.setInfo(p, ui);
+				hashMap = pi.toHashMap();
+				ls.add(hashMap);
+			}
+			j.setObj(ls);
+			j.setSuccess(true);
+			j.setMsg("添加成功!");
+		}catch (Exception exception){
+			j.setSuccess(false);
+			j.setMsg(exception.getMessage());
+		}
+		
+		return j;
+	}
+	
+//--end of guoxinze add
 	@RequestMapping(value = "/prison_add", method =RequestMethod.POST)
 	public String addPrisoner(HttpServletRequest request){
 	
@@ -587,7 +663,7 @@ public class CommonController {
 		return null;
 	}
 
-
+//add by guoxinze 2016/11/30
 	@RequestMapping(value = "/management/device_addOrUpdate", method =RequestMethod.POST)
 	public @ResponseBody
 	Json addOrUpdateDevice(HttpServletRequest request){
@@ -608,6 +684,7 @@ public class CommonController {
 		
 		return j;
 	}
+//--end of guoxinze add
 	@RequestMapping(value = "/management/prisoner_addOrUpdate", method =RequestMethod.POST)
 	@ResponseBody
 	public Json addOrUpdatePrisoner(HttpServletRequest request){

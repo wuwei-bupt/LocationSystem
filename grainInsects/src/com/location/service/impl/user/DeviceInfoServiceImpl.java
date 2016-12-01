@@ -1,12 +1,16 @@
 package com.location.service.impl.user;
 
+import java.util.List;
+
 import javax.annotation.Resource;
+
+import org.springframework.stereotype.Service;
 
 import com.grain.service.impl.BaseServiceImpl;
 import com.location.dao.user.DeviceInfoDao;
 import com.location.entity.DeviceInfo;
 import com.location.service.user.DeviceInfoService;
-
+@Service("deviceInfoServiceImpl")
 public class DeviceInfoServiceImpl extends BaseServiceImpl<DeviceInfo, String> implements DeviceInfoService {
 
 	@Resource(name = "deviceInfoDaoImpl")
@@ -21,6 +25,12 @@ public class DeviceInfoServiceImpl extends BaseServiceImpl<DeviceInfo, String> i
 	public DeviceInfo findByName(String deviceMac) {
 		// TODO Auto-generated method stub
 		return deviceInfoDao.findByName(deviceMac);
+	}
+
+	@Override
+	public List<DeviceInfo> findByParam(String choice) {
+		// TODO Auto-generated method stub
+			return deviceInfoDao.findAll();
 	}
 
 }

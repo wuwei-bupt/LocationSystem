@@ -1,11 +1,8 @@
 package com.location.dao.Impl.user;
 
 
-import java.util.HashMap;
-
-import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
+import javax.persistence.FlushModeType;
+import javax.persistence.NoResultException;
 
 import org.springframework.stereotype.Repository;
 
@@ -15,6 +12,17 @@ import com.location.entity.UserInfo;
 
 @Repository("userInfoDAOImpl")
 public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo,String> implements UserInfoDao {
+
+	@Override
+	public UserInfo findByDeviceID(int deviceID) {
+
+		try{
+			String jpql = "select userInfo from UserInfo userInfo where lower(userInfo.device_id) = lower(:device_id)";
+			return entityManager.createQuery(jpql, UserInfo.class).setFlushMode(FlushModeType.COMMIT).setParameter("device_id", deviceID).getSingleResult();
+		}catch(NoResultException e) {
+			return null;
+		}
+	}
 
 	
 //	@Override

@@ -4,5 +4,5 @@ import com.grain.service.BaseService;
 import com.location.entity.UserInfo;
 
 public interface UserInfoService extends BaseService<UserInfo, String> {
-
+		UserInfo findByDeviceID(int deviceID);
 }
