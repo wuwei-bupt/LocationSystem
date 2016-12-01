@@ -6,16 +6,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.grain.service.impl.BaseServiceImpl;
-import com.location.dao.user.AreaDao;
+import com.location.dao.user.LsAreaDao;
 import com.location.entity.LsArea;
-import com.location.service.user.AreaService;
-@Service("areaServiceImpl")
-public class AreaServiceImpl extends BaseServiceImpl<LsArea, String> implements AreaService {
+import com.location.service.user.LsAreaService;
+@Service("lsAreaServiceImpl")
+public class LsAreaServiceImpl extends BaseServiceImpl<LsArea, String> implements LsAreaService {
 
-	@Resource(name="areaDaoImpl")
-	private AreaDao areadao;
-	@Resource(name="areaDaoImpl")
-	public void setBaseDao(AreaDao areaDao) {
+	@Resource(name="lsAreaDaoImpl")
+	private LsAreaDao areadao;
+	@Resource(name="lsAreaDaoImpl")
+	public void setBaseDao(LsAreaDao areaDao) {
 		super.setBaseDao(areaDao);
 	}
 	@Override

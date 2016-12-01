@@ -19,11 +19,12 @@
 	}
 	$(function() {
 		layout_west_tree = $('#layout_west_tree').tree({
-			url : 'admin/menu/display',
+				url : 'admin/menu/display',  
+			//url : '/',
 			parentField : 'pid',
 			//lines : true,
 			onClick : function(node) {
-				if (node.attributes && node.attributes.url) {
+				if (true||node.attributes && node.attributes.url) {
 					var url;
 					if (node.attributes.url.indexOf('/') == 0) {/*如果url第一位字符是"/"，那么代表打开的是本地的资源*/
 						url = '${pageContext.request.contextPath}' + node.attributes.url;
@@ -35,9 +36,10 @@
 						}
 					} else {/*打开跨域资源*/
 						url = node.attributes.url;
-					}
+					}    
 					addTab({
-						url : url,
+						//url : 'resources/views/portal/location_personmanage.html',
+						url:url,
 						title : node.text,
 						iconCls : node.iconCls
 					});
@@ -82,7 +84,7 @@
 	}
 </script>
 <div class="easyui-accordion" data-options="fit:true,border:false">
-	<div title="系统菜单" style="padding: 5px;" data-options="border:false,isonCls:'anchor',tools : [ {
+<!--  	<div title="系统菜单" style="padding: 5px;" data-options="border:false,isonCls:'anchor',tools : [ {
 				iconCls : 'database_refresh',
 				handler : function() {
 					$('#layout_west_tree').tree('reload');
@@ -111,7 +113,34 @@
 		<div class="well well-small">
 			<ul id="layout_west_tree"></ul>
 		</div>
-	</div>
+	</div> -->
+	<ul id="layout_west_tree" class="easyui-tree">  
+				<li>   
+			        <span>实时监控</span>   
+			    </li> 
+			    <li>   
+			        <span>数据维护</span>   
+			        <ul>   
+			             
+			            <li>   
+			                <span>人员管理</span>   
+			            </li>   
+			            <li>   
+			                <span>分组管理</span>   
+			            </li>
+			             <li>   
+			                <span>区域管理</span>   
+			            </li>   
+			            <li>   
+			                <span>设备管理</span>   
+			            </li>
+			             <li>   
+			                <span>监区管理</span>   
+			            </li>      
+			        </ul>   
+			    </li>   
+			       
+			</ul>  
 	<!-- 
 	<div title="其他示例" data-options="border:false,iconCls:'anchor'">
 		<ul>
