@@ -12,9 +12,9 @@ import com.location.service.user.UserInfoService;
 @Service("userInfoServiceImpl")
 public class UserInfoServiceImpl extends BaseServiceImpl<UserInfo, String> implements UserInfoService{
 
-	@Resource(name = "userDaoImpl")
+	@Resource(name = "userInfoDaoImpl")
 	private UserInfoDao userInfoDao;
-	@Resource(name = "userDaoImpl")
+	@Resource(name = "userInfoDaoImpl")
 	public void setBaseDao(UserInfoDao userInfoDao) {
 		super.setBaseDao(userInfoDao);
 	}

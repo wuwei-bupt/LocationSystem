@@ -1,4 +1,4 @@
-package com.grain.dao.impl.user;
+package com.location.dao.Impl.user;
 
 import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
@@ -6,7 +6,7 @@ import javax.persistence.NoResultException;
 import org.springframework.stereotype.Repository;
 
 import com.grain.dao.impl.BaseDaoImpl;
-import com.grain.dao.user.DeviceMacCodeDao;
+import com.location.dao.user.DeviceMacCodeDao;
 import com.location.entity.DeviceMacCode;
 
 @Repository("deviceMacCodeDaoImpl")

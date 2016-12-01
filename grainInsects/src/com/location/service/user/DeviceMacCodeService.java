@@ -1,4 +1,4 @@
-package com.grain.service.user;
+package com.location.service.user;
 
 import com.grain.service.BaseService;
 import com.location.entity.DeviceMacCode;
