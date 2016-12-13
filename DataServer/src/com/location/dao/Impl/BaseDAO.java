@@ -3,7 +3,10 @@ package com.location.dao.Impl;
 import java.io.Serializable;
 import java.util.List;
 
+
+import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import com.location.dao.hibernate.HibernateSessionFactory;
 
@@ -110,4 +113,21 @@ public class BaseDAO<T> {
 			session.close();
 		}
 	}
+	public void dropAll(){
+		Session session=HibernateSessionFactory.getSessionFactory().openSession();
+		Transaction transaction=session.beginTransaction();
+		try {
+			Query query=session.createQuery("delete from Device_info");
+			query.executeUpdate();
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			transaction.rollback();
+		}finally {
+			session.close();
+		}
+	}
+	
+	
+	
 }

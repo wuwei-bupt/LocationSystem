@@ -24,14 +24,14 @@
 		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
 		
 		<!-- Echo all executed SQL to stdout -->
-		<property name="show_sql">true</property>
+		<property name="show_sql">false</property>
 
-		<property name="format_sql">true</property> 
+		<property name="format_sql">false</property> 
 		
 		<!-- Drop and re-create the database schema on startup -->
 		<property name="hbm2ddl.auto">update</property>
 		<mapping resource="com/location/entity/Device_info.hbm.xml" />
 		<mapping resource="com/location/entity/Device_info_history.hbm.xml" />
-		<mapping resource="com/location/entity/User_device.hbm.xml" />
+		<mapping resource="com/location/entity/Device.hbm.xml"/>
 	</session-factory>
 </hibernate-configuration>
