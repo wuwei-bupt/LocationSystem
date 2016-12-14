@@ -1,11 +1,14 @@
 package com.location.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import oracle.net.aso.p;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "ls_user_info")
@@ -18,7 +21,9 @@ public class UserInfo implements Serializable{
 	private int device_id;
 	private int group_id;
 	private int region_id;	
-	private String user_head;
+	private String headimage;
+	private Date createtime;
+	private int state;
 	@Id
 	@Column(name="user_id",unique=true,nullable=false)
 	public int getUser_id() {
@@ -27,7 +32,7 @@ public class UserInfo implements Serializable{
 	public void setUser_id(int user_id) {
 		this.user_id = user_id;
 	}
-	@Column(name="user_code")
+	@Column(name="user_code",unique=true,nullable=false)
 	public String getUser_code() {
 		return user_code;
 	}
@@ -76,12 +81,26 @@ public class UserInfo implements Serializable{
 	public void setRegion_id(int region_id) {
 		this.region_id = region_id;
 	}
-	@Column(name="user_head")
-	public String getUser_head() {
-		return user_head;
+	@Column(name="headimage",nullable=false)
+	public String getHeadimage() {
+		return headimage;
 	}
-	public void setUser_head(String user_head) {
-		this.user_head = user_head;
+	public void setHeadimage(String headimage) {
+		this.headimage = headimage;
+	}
+	@Column(name="createtime",nullable=false)
+	public Date getCreatetime() {
+		return createtime;
+	}
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
+	}
+	@Column(name="state",nullable=false)
+	public int getState() {
+		return state;
+	}
+	public void setState(int state) {
+		this.state = state;
 	}
 	
 

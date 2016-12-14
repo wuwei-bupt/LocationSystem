@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.security.MessageDigest;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,16 +52,18 @@ import com.grain.service.user.DepotUserService;
 import com.grain.util.SettingUtils;
 import com.grain.util.SpringUtils;
 import com.grain.util.WebUtils;
+import com.location.entity.Device;
 import com.location.entity.DeviceInfo;
-import com.location.entity.DeviceMacCode;
 import com.location.entity.PrisonerInfo;
 import com.location.entity.UserInfo;
 import com.location.service.user.DeviceInfoService;
-import com.location.service.user.DeviceMacCodeService;
+import com.location.service.user.DeviceService;
 import com.location.service.user.GroupInfoService;
 import com.location.service.user.LsAreaService;
 import com.location.service.user.RegionService;
 import com.location.service.user.UserInfoService;
+
+import oracle.net.aso.s;
 
 /**
  * Controller - 共用
@@ -96,7 +99,7 @@ public class CommonController {
 //	PrisonerService prisonerService;
 	
 	@Resource(name = "deviceMacCodeServiceImpl")
-	DeviceMacCodeService deviceMacCodeService;
+	DeviceService deviceService;
 	
 	@Resource(name="userInfoServiceImpl")
 	UserInfoService userInfoService;
@@ -669,13 +672,13 @@ public class CommonController {
 	public @ResponseBody
 	Json addOrUpdateDevice(HttpServletRequest request){
 		Json j = new Json();
-		DeviceMacCode device = new DeviceMacCode();
+		Device device = new Device();
 		String equipmentID = request.getParameter("InputEquipmentID");
 		String deviceMAC = request.getParameter("InputMAC");
 		device.setDevice_code(equipmentID);
 		device.setDevice_mac(deviceMAC);
 		try{
-			deviceMacCodeService.update(device);
+			deviceService.update(device);
 			j.setSuccess(true);
 			j.setMsg("添加成功!");
 		}catch (Exception exception){
@@ -698,13 +701,15 @@ public class CommonController {
 		String equiment=request.getParameter("InputEquipment");
 		int region_id=regionService.findByName(monitor).getRegion_id();
 		int group_id=groupInfoService.findByName(group).getGroupId();
-		String device_mac=deviceMacCodeService.findByName(equiment).getDevice_mac();
-		int device_id=deviceInfoService.findByName(device_mac).getDevice_id();
+		int device_id=deviceService.findByName(equiment).getDevice_id();
 		userInfo.setUser_name(userName);
 		userInfo.setUser_code(userNumber);
 		userInfo.setRegion_id(region_id);
 		userInfo.setGroup_id(group_id);
 		userInfo.setDevice_id(device_id);
+		userInfo.setCreatetime(new Date());
+		userInfo.setState(1);
+		userInfo.setStart_time(System.currentTimeMillis());
 		
 		try {
 			userInfoService.update(userInfo);

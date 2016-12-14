@@ -1,6 +1,8 @@
 package com.location.entity;
 // Generated 2016-11-26 12:39:38 by Hibernate Tools 3.6.0.Final
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -17,6 +19,7 @@ public class GroupInfo implements java.io.Serializable {
 	private int groupId;
 	private String groupName;
 	private int maxDistance;
+	private Date createtime;
 
 	public GroupInfo() {
 	}
@@ -38,7 +41,7 @@ public class GroupInfo implements java.io.Serializable {
 		this.groupId = groupId;
 	}
 
-	@Column(name = "group_name", unique = true,nullable = false, length = 30)
+	@Column(name = "group_name", unique = true, nullable = false, length = 30)
 	public String getGroupName() {
 		return this.groupName;
 	}
@@ -54,6 +57,14 @@ public class GroupInfo implements java.io.Serializable {
 
 	public void setMaxDistance(int maxDistance) {
 		this.maxDistance = maxDistance;
+	}
+	@Column(name = "createtime", nullable = false)
+	public Date getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
 	}
 
 }

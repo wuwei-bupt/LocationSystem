@@ -40,14 +40,14 @@ public class Device implements java.io.Serializable{
 	public void setDevice_code(String device_code) {
 		this.device_code = device_code;
 	}
-	@Column(name="createtime")
+	@Column(name="createtime",nullable = false)
 	public Date getCreatetime() {
 		return createtime;
 	}
 	public void setCreatetime(Date createtime) {
 		this.createtime = createtime;
 	}
-	@Column(name="isvalid")
+	@Column(name="isvalid",nullable = false)
 	public boolean getIsvalid() {
 		return isvalid;
 	}

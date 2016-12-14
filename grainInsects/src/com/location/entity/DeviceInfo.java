@@ -20,7 +20,7 @@ public class DeviceInfo implements java.io.Serializable{
 	private int x_millimeter;
 	private int y_millimeter;
 	private int compass;
-	private int alarm;
+	private boolean alarm;
 	private String device_mac;
 	
 	@Id
@@ -61,14 +61,14 @@ public class DeviceInfo implements java.io.Serializable{
 	public void setBuild_id(String build_id) {
 		this.build_id = build_id;
 	}
-	@Column(name = "error_code")
+	@Column(name = "error_code",nullable = false)
 	public Integer getError_code() {
 		return error_code;
 	}
 	public void setError_code(Integer error_code) {
 		this.error_code = error_code;
 	}
-	@Column(name = "floor_id")
+	@Column(name = "floor_id",nullable = false)
 	public Integer getFloor_id() {
 		return floor_id;
 	}
@@ -89,20 +89,20 @@ public class DeviceInfo implements java.io.Serializable{
 	public void setNearest_tag_id(String nearest_tag_id) {
 		this.nearest_tag_id = nearest_tag_id;
 	}
-	@Column(name = "timestamp_millisecond")
+	@Column(name = "timestamp_millisecond",nullable = false)
 
 	public void setTimestamp_millisecond(Double timestamp_millisecond) {
 		this.timestamp_millisecond = timestamp_millisecond;
 	}
 
-	@Column(name = "x_millimeter")
+	@Column(name = "x_millimeter",nullable = false)
 	public Integer getX_millimeter() {
 		return x_millimeter;
 	}
 	public void setX_millimeter(Integer x_millimeter) {
 		this.x_millimeter = x_millimeter;
 	}
-	@Column(name = "y_millimeter")
+	@Column(name = "y_millimeter",nullable = false)
 	public Integer getY_millimeter() {
 		return y_millimeter;
 	}
@@ -116,11 +116,11 @@ public class DeviceInfo implements java.io.Serializable{
 	public void setCompass(Integer compass) {
 		this.compass = compass;
 	}
-	@Column(name = "alarm")
-	public int getAlarm() {
+	@Column(name = "alarm",nullable = false)
+	public boolean getAlarm() {
 		return alarm;
 	}
-	public void setAlarm(int alarm) {
+	public void setAlarm(boolean alarm) {
 		this.alarm = alarm;
 	}
 

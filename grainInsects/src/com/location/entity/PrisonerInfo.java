@@ -17,10 +17,10 @@ public class PrisonerInfo {
 	public void setInfo(DeviceInfo deviceInfo,UserInfo userInfo){
 		this.prisoner_name = userInfo.getUser_name();
 		this.prisoner_code = userInfo.getUser_code();
-		this.state = 1;
+		this.state = userInfo.getState();
 		this.x = deviceInfo.getX_millimeter();
 		this.y = deviceInfo.getY_millimeter();
-		this.head_url = userInfo.getUser_head();
+		this.head_url = userInfo.getHeadimage();
 	}
 	
 	public HashMap<String, String> toHashMap(){

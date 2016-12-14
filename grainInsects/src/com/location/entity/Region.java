@@ -1,6 +1,7 @@
 package com.location.entity;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,6 +17,7 @@ private int region_id;
 private String regionName;
 private String manager;
 private String remark;
+private Date createtime;
 @Id
 @Column(name="region_id",unique=true,nullable=false)
 public int getRegion_id() {
@@ -44,5 +46,12 @@ public String getRemark() {
 }
 public void setRemark(String remark) {
 	this.remark = remark;
+}
+@Column(name="createtime",nullable = false)
+public Date getCreatetime() {
+	return createtime;
+}
+public void setCreatetime(Date createtime) {
+	this.createtime = createtime;
 }
 }
