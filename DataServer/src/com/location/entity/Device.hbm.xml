@@ -10,7 +10,7 @@
 		</id>
 		<property name="device_mac" column="device_mac"></property>
 		<property name="device_code" column="device_code"></property>
-		<property name="createtime" column="cereatetime"></property>
+		<property name="createtime" column="createtime"></property>
 		<property name="isvalid" column="isvalid"></property>
 	</class>
 </hibernate-mapping>
