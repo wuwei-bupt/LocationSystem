@@ -25,7 +25,7 @@ public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo,String> implements Use
 			return null;
 		}
 	}
-
+	//test commit
 	@Override
 	public List<UserInfo> findAll() {
 		// TODO Auto-generated method stub
