@@ -106,6 +106,7 @@ public class UserInfo implements Serializable {
 	@Column(name="createtime",nullable=false)
 	public Date getCreatetime() {
 		return createtime;
+
 	}
 
 	public void setCreatetime(Date createtime) {
