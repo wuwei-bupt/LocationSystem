@@ -1,6 +1,8 @@
 package com.location.entity;
 // Generated 2016-11-26 12:39:38 by Hibernate Tools 3.6.0.Final
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,6 +24,7 @@ public class LsArea implements java.io.Serializable {
 	private int y2;
 	private int shape;
 	private String remark;
+	private Date createtime;
 
 	public LsArea() {
 	}
@@ -114,6 +117,14 @@ public class LsArea implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	@Column(name="createtime",nullable = false)
+	public Date getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
 	}
 
 }

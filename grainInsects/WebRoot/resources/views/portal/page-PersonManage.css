@@ -10,7 +10,7 @@ body{
 .row{
 	position:relative;
 	float:right;
-	width:800px;
+	width:250px;
 }
 #list{
 	width:100%;
@@ -26,6 +26,11 @@ body{
 #create{
 	width:35px;
 	position:absolute;
-	top:9px;
+	top:0px;
 	right:10px;	
+	width:60px;
+}
+.searchPerson{
+	position:relative;
+	top:9px;
 }

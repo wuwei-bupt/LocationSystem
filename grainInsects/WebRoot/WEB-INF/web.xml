@@ -6,7 +6,7 @@
 	<display-name>grainInsects</display-name>
 	<description>储粮害虫信息平台 V3.0</description>
 
-	<!-- 读取spring的配置文件的信息-->
+	<!--配置servletContext,读取spring的配置文件的信息-->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>
@@ -185,7 +185,7 @@
 	</filter-mapping>
 	
 	
-	<!-- 配置springmvc 对应的配置文件为applicationContext.xml 拦截所有的请求-->
+	<!-- 配置springmvc 对应的配置文件为applicationContext.xml 拦截所有的请求,本配置为sprinmvc的web入口-->
 	<!-- 启用前端调度器以后，用户请求将会被纳入SpringMVC的管理之内，然后可以调用Controller来处理用户请求 -->
 	<servlet>
 		<servlet-name>grainInsects</servlet-name>
@@ -200,6 +200,7 @@
 	<servlet-mapping>
 		<servlet-name>grainInsects</servlet-name>
 		<url-pattern>/</url-pattern>
+		<!-- 拦截所有的url请求 -->
 	</servlet-mapping>
 
 	<!-- listener用来监听web应用在web容器中运行时发生的各种事件 -->

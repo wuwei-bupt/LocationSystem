@@ -32,4 +32,29 @@ public class DeviceInfoDaoImpl extends BaseDaoImpl<DeviceInfo, String> implement
 		// TODO Auto-generated method stub
 		return findAll1();
 	}
+
+//	@Override
+//	public DeviceInfo findByPrisonerCode(int device_id) {
+//		// TODO Auto-generated method stub
+//		if(device_id == null){
+//			return null;
+//		}
+//		try {
+//			String jpql = "select deviceInfo from DeviceInfo deviceInfo where lower(deviceInfo.device_id) = lower(:device_id)";
+//			return entityManager.createQuery(jpql,DeviceInfo.class).setFlushMode(FlushModeType.COMMIT).setParameter("device_id",device_id).getSingleResult();
+//		} catch (NoResultException e) {
+//			return null;
+//		}
+//	}
+
+	@Override
+	public DeviceInfo findByDeviceID(int device_id) {
+		// TODO Auto-generated method stub
+		try {
+			String jpql = "select deviceInfo from DeviceInfo deviceInfo where lower(deviceInfo.device_id) = lower(:device_id)";
+			return entityManager.createQuery(jpql,DeviceInfo.class).setFlushMode(FlushModeType.COMMIT).setParameter("device_id", device_id).getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
 }

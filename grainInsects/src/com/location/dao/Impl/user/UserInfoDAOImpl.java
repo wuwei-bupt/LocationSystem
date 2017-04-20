@@ -1,6 +1,8 @@
 package com.location.dao.Impl.user;
 
 
+import java.util.List;
+
 import javax.persistence.FlushModeType;
 import javax.persistence.NoResultException;
 
@@ -10,7 +12,7 @@ import com.grain.dao.impl.BaseDaoImpl;
 import com.location.dao.user.UserInfoDao;
 import com.location.entity.UserInfo;
 
-@Repository("userInfoDAOImpl")
+@Repository("userInfoDaoImpl")
 public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo,String> implements UserInfoDao {
 
 	@Override
@@ -19,6 +21,34 @@ public class UserInfoDaoImpl extends BaseDaoImpl<UserInfo,String> implements Use
 		try{
 			String jpql = "select userInfo from UserInfo userInfo where lower(userInfo.device_id) = lower(:device_id)";
 			return entityManager.createQuery(jpql, UserInfo.class).setFlushMode(FlushModeType.COMMIT).setParameter("device_id", deviceID).getSingleResult();
+		}catch(NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public List<UserInfo> findAll() {
+		// TODO Auto-generated method stub
+		return findAll1();
+	}
+
+	@Override
+	public List<UserInfo> findByGroupID(int groupID) {
+		// TODO Auto-generated method stub
+		try{
+			String jpql = "select userInfo from UserInfo userInfo where lower(userInfo.group_id) = lower(:group_id)";
+			return entityManager.createQuery(jpql, UserInfo.class).setFlushMode(FlushModeType.COMMIT).setParameter("group_id", groupID).getResultList();
+		}catch(NoResultException e) {
+			return null;
+		}
+	}
+
+	@Override
+	public List<UserInfo> findByState(int state) {
+		// TODO Auto-generated method stub
+		try{
+			String jpql = "select userInfo from UserInfo userInfo where lower(userInfo.state) = lower(:state)";
+			return entityManager.createQuery(jpql, UserInfo.class).setFlushMode(FlushModeType.COMMIT).setParameter("state", state).getResultList();
 		}catch(NoResultException e) {
 			return null;
 		}

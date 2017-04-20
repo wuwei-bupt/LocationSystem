@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		
+		<script type = "text/javascript" src = "jquery.js"></script>
 		<meta charset='utf-8'>
-		<title>å¾çå è½½å¹³ç§»æ¾å¤§ç¼©å°ç¤ºä¾</title>
+		<title></title>
 		<style>
 			html,body{
 				margin:0px;
@@ -30,6 +30,27 @@
 				padding:0;
 				margin:0;
 			}
+			.search{
+  				position:absolute;
+  				top:10px;
+ 				right:10px;
+  				width:250px;
+  				padding:3px;
+  				box-shadow:0 3px 3px 0 #ddd;
+			}
+			.label{
+  				float:left;
+			}
+			form div span{
+  				color:#666;
+  				width:70px;
+  				display:inline-block;
+  				text-align:center;
+			}
+			form div span:hover{
+  				color:#5af;
+			}
+			
 		</style>
 		<jsp:include page="/common/easyui.jsp"></jsp:include>
 	</head>
@@ -45,34 +66,31 @@
 				<button type="button" id="zoom-out"><img src="zoom-out.png" alt="zoom-out" /></button>	
 				<button type="button" id="revert"><img src="key.png" alt="revert" /></button>				
 			</div>
+			<div id="search_div">
+  				 <form class="search" onsubmit="search(); return false;">
+				    <div class="label"><span value='1'>所有</span></div>
+				    <div class="label">|</div>
+				    <div class="label"><span value='2'>组</span></div>
+				    <div class="label">|</div>
+				    <div class="label"><span value='3'>犯人编号</span></div>
+				   
+				    <input  type="search" name="search" placeholder="搜索组、人、监区" id="search">
+				 	 <!--   <input type="submit" value="定位" >  -->
+					<button type="button"  onclick="locate(event)">定位</button>
+				  </form>
+			</div>
 		</div>
 		<div data-options="region:'east',split:false " title=" "
 		style="overflow: hidden;width: 220px;">
-		<ul id="tt" class="easyui-tree">  
+			<ul id="tt" class="easyui-tree" data-options="url:'http://localhost:8080/grainInsects/depoter/common//allprisoner_count'">  
 				   
-			             
-			            <li>   
-			                <span>总人数 :100</span>   
-			            </li>   
-			            <li>   
-			                <span>已到人数:99</span>   
-			            </li>
-			             <li>   
-			                <span>缺勤人数:1</span>   
-			            </li>   
-			            <li>   
-			                <span>缺勤人员名单</span>
-			                 <ul> 
-			                <li>   
-			                <span>张三</span>   
-			            	</li>   
-			            	</ul>
-			            </li>
-			                 
-			       
+			        
+			           
 			       
 			</ul>  
 		</div>
 		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript" src="search.js"></script>
 	</body>
+	 
 </html>

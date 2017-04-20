@@ -33,4 +33,16 @@ public class DeviceInfoServiceImpl extends BaseServiceImpl<DeviceInfo, String> i
 			return deviceInfoDao.findAll();
 	}
 
+	//@Override
+//	public DeviceInfo findByPrisonerCode(String prisoner_code) {
+//		// TODO Auto-generated method stub
+//		return deviceInfoDao.findByPrisonerCode(prisoner_code);
+//	}
+
+	@Override
+	public DeviceInfo findByDeviceID(int device_id) {
+		// TODO Auto-generated method stub
+		return deviceInfoDao.findByDeviceID(device_id);
+	}
+
 }

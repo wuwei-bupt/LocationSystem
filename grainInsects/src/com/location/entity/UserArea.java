@@ -22,6 +22,7 @@ public class UserArea implements java.io.Serializable {
 	private Date starttime;
 	private Date endtime;
 	private String remark;
+	private Date createtime;
 
 	public UserArea() {
 	}
@@ -86,6 +87,14 @@ public class UserArea implements java.io.Serializable {
 
 	public void setRemark(String remark) {
 		this.remark = remark;
+	}
+	@Column(name="createtime",nullable = false)
+	public Date getCreatetime() {
+		return createtime;
+	}
+
+	public void setCreatetime(Date createtime) {
+		this.createtime = createtime;
 	}
 
 }

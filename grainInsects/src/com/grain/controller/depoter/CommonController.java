@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.security.MessageDigest;
 import java.security.interfaces.RSAPublicKey;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,16 +52,19 @@ import com.grain.service.user.DepotUserService;
 import com.grain.util.SettingUtils;
 import com.grain.util.SpringUtils;
 import com.grain.util.WebUtils;
+import com.location.entity.Device;
 import com.location.entity.DeviceInfo;
-import com.location.entity.DeviceMacCode;
 import com.location.entity.PrisonerInfo;
 import com.location.entity.UserInfo;
+import com.location.entity.GroupInfo;
 import com.location.service.user.DeviceInfoService;
-import com.location.service.user.DeviceMacCodeService;
+import com.location.service.user.DeviceService;
 import com.location.service.user.GroupInfoService;
 import com.location.service.user.LsAreaService;
 import com.location.service.user.RegionService;
 import com.location.service.user.UserInfoService;
+
+import oracle.net.aso.s;
 
 /**
  * Controller - 共用
@@ -96,7 +100,7 @@ public class CommonController {
 //	PrisonerService prisonerService;
 	
 	@Resource(name = "deviceMacCodeServiceImpl")
-	DeviceMacCodeService deviceMacCodeService;
+	DeviceService deviceService;
 	
 	@Resource(name="userInfoServiceImpl")
 	UserInfoService userInfoService;
@@ -577,28 +581,17 @@ public class CommonController {
 //	}
 
 //add by guoxinze
+	/**
+	 * 刚开始做的定位接口，现在已经不需要
+	 * @param op_name
+	 * @param op_parameter
+	 * @return
+	 */
 	@RequestMapping(value = "/prison_trace", method = RequestMethod.POST)
 	public @ResponseBody
 	Json getPrisonerTrace(@RequestParam("op_name") String op_name,
 								@RequestParam("op_parameter") String op_parameter){
-		
-//		Json j = new Json();
-//		// isSuccess
-//		j.setSuccess(true);
-//		// errorMessage
-//		j.setMsg("添加成功!");
-//		// object
-//		List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
-//		 
-//		List<DeviceInfo> l = deviceInfoService.findByParam(op_parameter);
-//		for(int i=0;i<l.size();i++){
-//			PrisonInfo prisonInfo = new PrisonInfo();
-//			prisonInfo.getInfo();
-//			ls.add(prisonInfo.toHashMap());
-//			// add info
-//		}
-//		j.setObj(ls);
-//			
+				
 	    if(op_name.equals("realtime")){
 	    		System.out.println(op_name + " " + op_parameter);
 				List<DeviceInfo> l = deviceInfoService.findByParam(op_parameter);	
@@ -621,24 +614,42 @@ public class CommonController {
 	    	return null;
 	    }
 	}
-	
+	/**
+	 * 获取所有犯人定位信息接口
+	 * 通过先获取UserInfo表中的device_id查找DeviceInfo的相关信息
+	 * @param
+	 * @return prisoner_info_list: prisoner_name, prisoner_code, head_url, x, y, state。
+	 */
 	@RequestMapping(value = "/allPrisoner", method =RequestMethod.POST)
 	public @ResponseBody
 	Json getAllPrisoner(){
 		Json j = new Json();
 		try{
-			List<DeviceInfo> l = deviceInfoService.findByParam(null);
+			List<UserInfo> l = userInfoService.findAll();
 			List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
-			DeviceInfo p = null;
+			UserInfo p = null;
 			PrisonerInfo pi = new PrisonerInfo();
 			for(int i=0;i<l.size();i++){
 				HashMap<String, String> hashMap = new HashMap<String, String>();
 				p = l.get(i);
-				System.out.println(p.getDevice_id()+" "+p.getDevice_id()+" "+String.valueOf(p.getX_millimeter())+" "+String.valueOf(p.getY_millimeter()));
-				UserInfo ui = userInfoService.findByDeviceID(p.getDevice_id());
-				pi.setInfo(p, ui);
-				hashMap = pi.toHashMap();
-				ls.add(hashMap);
+				if(p.getState() == 3){
+					continue;
+				}else{
+					DeviceInfo ui = deviceInfoService.findByDeviceID(p.getDevice_id());
+					if(ui == null){//如果在UserInfo表里面而没有在DeviceInfo表里面，就将状态设置成缺勤
+						p.setState(2);
+						userInfoService.update(p);
+						continue;
+					}else{//如果找到，那么就设置成正常
+						p.setState(1);
+						userInfoService.update(p);
+					}
+					this.groupDistance();
+					pi.setInfo(ui, p);
+					System.out.println(pi.toString());
+					hashMap = pi.toHashMap();
+					ls.add(hashMap);
+				}
 			}
 			j.setObj(ls);
 			j.setSuccess(true);
@@ -649,33 +660,21 @@ public class CommonController {
 		}
 		
 		return j;
-	}
+	}	
+//--------------------end of guoxinze add
 	
-//--end of guoxinze add
-	@RequestMapping(value = "/prison_add", method =RequestMethod.POST)
-	public String addPrisoner(HttpServletRequest request){
-	
-		//HttpSession session = request.getSession();
-		System.out.println(request.getParameter("InputEquipmentID"));
-		System.out.println(request.getParameter("InputMAC"));
-		//System.out.println(session.getAttribute("InputEquipmentID"));
-		//System.out.println(session.getAttribute("InputMAC"));
-		
-		return null;
-	}
-
 //add by guoxinze 2016/11/30
 	@RequestMapping(value = "/management/device_addOrUpdate", method =RequestMethod.POST)
 	public @ResponseBody
 	Json addOrUpdateDevice(HttpServletRequest request){
 		Json j = new Json();
-		DeviceMacCode device = new DeviceMacCode();
+		Device device = new Device();
 		String equipmentID = request.getParameter("InputEquipmentID");
 		String deviceMAC = request.getParameter("InputMAC");
 		device.setDevice_code(equipmentID);
 		device.setDevice_mac(deviceMAC);
 		try{
-			deviceMacCodeService.update(device);
+			deviceService.update(device);
 			j.setSuccess(true);
 			j.setMsg("添加成功!");
 		}catch (Exception exception){
@@ -686,6 +685,166 @@ public class CommonController {
 		return j;
 	}
 //--end of guoxinze add
+//add by guoxinze 2016/12/09
+	/**
+	 * 按照犯人编号查询接口
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "find/prisoner_code" , method =RequestMethod.POST)
+	@ResponseBody
+	public Json findbyprisonercode(HttpServletRequest request) {
+		Json j = new Json();
+		String prisoner_code = request.getParameter("prisoner_code");
+		String[] pc = prisoner_code.split("\\;");
+		for(int m=0;m<pc.length;m++){
+			System.out.println(pc[m]);
+		}
+		int requestNumber = pc.length;
+		try {
+			List<UserInfo> l = userInfoService.findAll();
+			List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
+			UserInfo p = null;
+			PrisonerInfo pi = new PrisonerInfo();
+			for(int i=0;i<l.size();i++){
+				HashMap<String, String> hashMap = new HashMap<String, String>();
+				p = l.get(i);
+				if(p.getState()==1||p.getState()==4){
+					for(int k=0;k<requestNumber;k++){
+						System.out.println(k+" "+p.getDevice_id()+" "+p.getUser_name()+" "+p.getHeadimage()+" ");
+						if(p.getUser_code().equals(pc[k])){
+								DeviceInfo ui = deviceInfoService.findByDeviceID(p.getDevice_id());
+								pi.setInfo(ui, p);
+								System.out.println(pi.toString());
+								hashMap = pi.toHashMap();
+								ls.add(hashMap);
+						}
+					}
+				}
+			}
+			j.setObj(ls);
+			j.setSuccess(true);
+			j.setMsg("添加成功!");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return j;
+	}
+	/**
+	 * 按照组名查找犯人接口
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping(value = "find/group_name" , method =RequestMethod.POST)
+	@ResponseBody
+	public Json findByPrisonerGroup(HttpServletRequest request) {
+		Json j = new Json();
+		String group_name = request.getParameter("group_name");
+		try {
+			GroupInfo groupInfo = groupInfoService.findByName(group_name);
+			int groupID = groupInfo.getGroupId();
+			List<UserInfo> l = userInfoService.findByGroupID(groupID);
+			List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
+			UserInfo p = null;
+			PrisonerInfo pi = new PrisonerInfo();
+			for(int i=0;i<l.size();i++){
+				HashMap<String, String> hashMap = new HashMap<String, String>();
+				p = l.get(i);
+				if(p.getState()==1||p.getState()==4){
+					DeviceInfo deviceInfo = deviceInfoService.findByDeviceID(p.getDevice_id());
+					pi.setInfo(deviceInfo, p);
+					System.out.println(pi.toString());
+					hashMap = pi.toHashMap();
+					ls.add(hashMap);
+				}
+			}
+			j.setObj(ls);
+			j.setSuccess(true);
+			j.setMsg("添加成功!");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return j;
+	}
+//----------------end of guoxinze add
+//add of guoxinze 2016/12/9
+	/**
+	 * 获取所有犯人统计信息接口
+	 * 本方法统计所有烦人
+	 * @return
+	 */
+	@RequestMapping(value = "/allprisoner_count", method =RequestMethod.POST)
+	@ResponseBody
+	public Json allPrisonerCount(){
+		Json js = new Json();
+		try{
+				List<UserInfo> lu=userInfoService.findAll();
+				long total_Prisoner_num = userInfoService.count();
+				int arrival_Prisoner_num = 0;
+				int absence_Prisoner_num = 0;
+				int leave_Prisoner_num = 0;
+				UserInfo userInfo = null;
+				List<HashMap<String, Object>> listHashMap = new ArrayList<HashMap<String,Object>>();
+				HashMap<String, Object> ls_absence = new HashMap<String,Object>();
+				HashMap<String, Object> ls_leave = new HashMap<String,Object>();
+				ls_absence.put("id", "absence_Prisoner_num");
+				ls_absence.put("text", "缺勤人员名单");
+				ls_absence.put("state", "open");
+				ls_leave.put("id", "leave_Prisoner_num");
+				ls_leave.put("text", "请假人员名单");
+				ls_leave.put("state", "open");
+				List<HashMap<String, String>> hashMap1 = new ArrayList<HashMap<String, String>>();
+				List<HashMap<String, String>> hashMap2 = new ArrayList<HashMap<String, String>>();
+				for(int i=0;i<lu.size();i++){
+					userInfo = lu.get(i);
+					if(userInfo.getState()==1||userInfo.getState()==4){
+						arrival_Prisoner_num++;
+					}else if(userInfo.getState()==2){
+						absence_Prisoner_num++;
+						HashMap<String, String> userhm = new HashMap<String, String>();
+						userhm.put("text", userInfo.getUser_name());
+						hashMap1.add(userhm);
+					}else if(userInfo.getState()==3){
+						leave_Prisoner_num++;
+						HashMap<String, String> infohm = new HashMap<String, String>();
+						infohm.put("text", userInfo.getUser_name());
+						hashMap2.add(infohm);
+					}else{
+						System.out.println("This state value is unavailable!");
+					}
+				}
+				System.out.println("arrival number" +" "+arrival_Prisoner_num+"absence number"+" "+absence_Prisoner_num+" "+"leave number"+" "+leave_Prisoner_num+"total number"+" "+total_Prisoner_num);
+				ls_absence.put("children", hashMap1);
+				ls_leave.put("children", hashMap2);
+				HashMap<String, Object> totalhm = new HashMap<String, Object>();
+				HashMap<String, Object> arrivalhm = new HashMap<String, Object>();
+				HashMap<String, Object> absencehm = new HashMap<String, Object>();
+				HashMap<String, Object> leavehm = new HashMap<String, Object>();
+				totalhm.put("id", "total_Prisoner_num");
+				totalhm.put("text", String.valueOf(total_Prisoner_num));
+				arrivalhm.put("id", "arrival_Prisoner_num");
+				arrivalhm.put("text", String.valueOf(arrival_Prisoner_num));
+				leavehm.put("id","leave_Prisoner_num");
+				leavehm.put("text",String.valueOf(leave_Prisoner_num));
+				absencehm.put("id", "leave_Prisoner_num");
+				absencehm.put("text", String.valueOf(absence_Prisoner_num));
+				listHashMap.add(totalhm);
+				listHashMap.add(arrivalhm);
+				listHashMap.add(absencehm);
+				listHashMap.add(leavehm);
+				listHashMap.add(ls_absence);
+				listHashMap.add(ls_leave);
+				js.setObj(listHashMap);
+				js.setSuccess(true);
+				js.setMsg("添加成功!");
+		}catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return js;
+	}
 	@RequestMapping(value = "/management/prisoner_addOrUpdate", method =RequestMethod.POST)
 	@ResponseBody
 	public Json addOrUpdatePrisoner(HttpServletRequest request){
@@ -698,13 +857,15 @@ public class CommonController {
 		String equiment=request.getParameter("InputEquipment");
 		int region_id=regionService.findByName(monitor).getRegion_id();
 		int group_id=groupInfoService.findByName(group).getGroupId();
-		String device_mac=deviceMacCodeService.findByName(equiment).getDevice_mac();
-		int device_id=deviceInfoService.findByName(device_mac).getDevice_id();
+		int device_id=deviceService.findByName(equiment).getDevice_id();
 		userInfo.setUser_name(userName);
 		userInfo.setUser_code(userNumber);
 		userInfo.setRegion_id(region_id);
 		userInfo.setGroup_id(group_id);
 		userInfo.setDevice_id(device_id);
+		userInfo.setCreatetime(new Date());
+		userInfo.setState(1);
+		userInfo.setStart_time(System.currentTimeMillis());
 		
 		try {
 			userInfoService.update(userInfo);
@@ -716,6 +877,95 @@ public class CommonController {
 		}
 		return json;
 		
+	}
+	/**
+	 * 更新组内最大间距接口
+	 * @return 超过组内最大间距的人犯人的信息.即prisoner_info_list
+	 */
+//	@RequestMapping(value = "/group/maxdistance", method =RequestMethod.POST)
+//	@ResponseBody
+	public void groupDistance(){
+		try {
+			List<GroupInfo> groupInfos = groupInfoService.findAll();
+			for(int i=0;i<groupInfos.size();i++){
+				GroupInfo groupInfo = groupInfos.get(i);
+				List<UserInfo> userInfos = userInfoService.findByGroupID(groupInfo.getGroupId());
+				boolean flag = true;
+				outer:for(int j=0;j<userInfos.size()-1;j++){
+					UserInfo userInfo1 = userInfos.get(j);
+					System.out.println("name1 =" +userInfo1.getUser_name());
+					if(userInfo1.getState()==1||userInfo1.getState()==4){
+						for(int k=j+1;k<userInfos.size();k++){
+							UserInfo userInfo2 = userInfos.get(k);
+							System.out.println("name2 =" +userInfo2.getUser_name());
+							if(userInfo2.getState()==1||userInfo2.getState()==4){
+								DeviceInfo deviceInfo1 = deviceInfoService.findByDeviceID(userInfo1.getDevice_id());
+								DeviceInfo deviceInfo2 = deviceInfoService.findByDeviceID(userInfo2.getDevice_id());
+								double x_distance = Math.abs(deviceInfo1.getX_millimeter()-deviceInfo2.getX_millimeter());
+								double y_distance = Math.abs(deviceInfo1.getY_millimeter()-deviceInfo2.getY_millimeter());
+								double xy_distance = Math.pow(x_distance, 2)+Math.pow(y_distance, 2);
+								double temp = Math.sqrt(xy_distance);
+
+								if(temp>groupInfo.getMaxDistance()){
+									flag = false;
+									for(int m=0;m<userInfos.size();m++){
+										UserInfo userInfo3 = userInfos.get(m);
+										userInfo3.setState(4);
+										System.out.println("name 3="+userInfo3.getUser_name());;
+										userInfoService.update(userInfo3);
+									}
+								}
+								break outer;
+							}
+						}
+					}
+				}
+				if(flag){
+					for(int n=0;n<userInfos.size();n++){
+						UserInfo userInfo4 = userInfos.get(n);
+						userInfo4.setState(1);
+						userInfoService.update(userInfo4);
+					}
+				}
+			}
+//			List<UserInfo> userInfos = userInfoService.findByState(4);
+//			List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
+//			for (int m=0;m<userInfos.size();m++){
+//				HashMap<String, String> hashMap = new HashMap<String, String>();
+//				UserInfo p = userInfos.get(m);
+//				PrisonerInfo pi = new PrisonerInfo();
+//				DeviceInfo deviceInfo = deviceInfoService.findByDeviceID(p.getDevice_id());
+//				pi.setInfo(deviceInfo, p);
+//				System.out.println(pi.toString());
+//				hashMap = pi.toHashMap();
+//				ls.add(hashMap);
+//			}
+			
+//			
+//			
+//			List<UserInfo> userInfos = userInfoService.findAll();
+//			List<HashMap<String, String>> ls = new ArrayList<HashMap<String,String>>();
+//			for (int m=0;m<userInfos.size();m++){
+//				HashMap<String, String> hashMap = new HashMap<String, String>();
+//				UserInfo p = userInfos.get(m);
+//				if(p.getState()==4){
+//					PrisonerInfo pi = new PrisonerInfo();
+//					DeviceInfo deviceInfo = deviceInfoService.findByDeviceID(p.getDevice_id());
+//					pi.setInfo(deviceInfo, p);
+//					System.out.println(pi.toString());
+//					hashMap = pi.toHashMap();
+//					ls.add(hashMap);
+//				}
+//			}
+//			Json js = new Json();
+//			js.setObj(ls);
+//			js.setSuccess(true);
+//			js.setMsg("添加成功!");
+//			return js;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		//return null;
 	}
 
 }

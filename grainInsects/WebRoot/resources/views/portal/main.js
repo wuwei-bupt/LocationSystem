@@ -1,4 +1,5 @@
 var canvas,context,zoomIn,zoomOut,revert;
+var all_Prisoner = new Array("prisoner_name", "current_x", "current_y","prisoner_code", "head_url", "state"); 
 var img,//图片对象
     imgIsLoaded,//图片是否加载完成;
     imgX=0,
@@ -10,34 +11,21 @@ var img,//图片对象
     var ctx2;
       //var x = 2000;
       //var y = 1000;
-      var WIDTH = 4381;
-      var HEIGHT = 2228;
-	  function init() {
-	    layer1 = document.getElementById("layer1");
-	    ctx1 = layer1.getContext("2d");
-	    layer2 = document.getElementById("layer2");
-	    ctx2 = layer2.getContext("2d");
-		//画布在init里面重绘就好
-		
-	    setInterval(getXYandDraw, 1000);
-	  }
 
 	  function Ondraw() {
 		drawImage();
-		drawpoint(1000,500,"张三");
+		//drawpoint(1000,500,"张三");
 	  }
 
-	  function drawbottom() {
-		ctx1.clearRect(0, 0, WIDTH, HEIGHT);
-		ctx1.drawImage(platform, 0, 0);
-	  }
-
-	  function drawpoint(x,y,name) { //draw point and word
-			var real_x=imgX+Math.round(imgScale*x);
+	  function drawpoint(x,y,name,head_url) { //draw point and word
+			
+		  	 
+		  
+		  	var real_x=imgX+Math.round(imgScale*x);
 			var real_y=imgY+Math.round(imgScale*y);
 			var radius=10*imgScale;
 			ctx2.beginPath();
-			ctx2.arc(real_x,real_y,radius,0,2*Math.PI);
+			ctx2.arc(real_x,real_y,radius,0,2*Math.PI);//把画的点按照调节因子放大缩小
 			ctx2.fillStyle = "red";
 			ctx2.fill();
 			ctx2.stroke();
@@ -45,24 +33,153 @@ var img,//图片对象
 			ctx2.font = 'bold '+font_size+'px arial';
 	        	ctx2.fillStyle = 'blue';
 			var xx=Number(real_x)-Number(30*imgScale);
-			var yy=Number(real_y)-Number(10*imgScale);
+			var yy=Number(real_y)-Number(10*imgScale); //把文本的位置也按照调节因子放大缩小
 	        	ctx2.fillText(name,xx,yy);
-		  }
 
-	 
+      //画图像
+      var head_img= new Image();
+      head_img.src= head_url;
+      ctx2.drawImage(head_img,0,0,head_img.width,head_img.height,real_x-Number(20*imgScale),real_y+Number(10*imgScale),head_img.width*imgScale,head_img.height*imgScale);
+
+		  }
+    function getDataAndDraw(){
+        //按照参数的不同选择不同的接口并调用
+    	drawImage();
+        if (dataArray.flag=='1' ){//所有
+            getPrisonDataAndDraw();
+        }else if(dataArray.flag=='2'){//组
+            getGroupDataAndDraw();      
+        }else if( dataArray.flag=='3'){//犯人编号
+            getPrison_codeDataAndDraw();
+        }
+        //重新加载缺勤树
+        var node = $('#tt').tree('getSelected'); 
+        
+        $('#tt').tree('reload', node);
+
+    }
+    function getPrisonDataAndDraw(){ //对应接口4获取犯人信息接口
+    		             //dataArray存在Seach.js里面，存下将要查询定位的数据
+            $.ajax({
+                         type: "post",
+                         url: 'http://localhost:8080/grainInsects/depoter/common/allPrisoner',
+                        //  url:'http://localhost:8080/grainInsects/depoter/common//allprisoner_count',
+                         data: {},
+                         dataType: 'json',
+                         success: function(re){
+                         console.log(re);
+                        // ctx2.clearRect(0,0,layer2.width,layer2.height);//
+                         for(var i=0;i<re.obj.length;i++){
+                            var prisoner_name=re.obj[i].prisoner_name;
+                            var current_x=re.obj[i].x;
+                            var current_y=re.obj[i].y;
+                            var prisoner_code=re.obj[i].prisoner_code;
+                            var head_url=re.obj[i].head_url;
+                            //var state=re.obj.prisoner_info_list[i].state;
+                            //is_success=re.obj.is_success;
+                            //error_msg=re.obj.error_msg;
+                            current_x = Number(current_x)*0.1443; 
+                            current_y = Number(current_y)*0.1443;
+                            drawpoint(current_x,current_y,prisoner_name+prisoner_code,head_url);
+							
+                         }
+                         
+                      }
+             
+                      
+                });
+    }
+    function getPrison_codeDataAndDraw(){ //对应接口5获取犯人编号信息接口
+                          //dataArray存在Seach.js里面，存下将要查询定位的数据
+            $.ajax({
+                         type: "post",
+                         url: 'http://localhost:8080/grainInsects/depoter/common/find/prisoner_code',
+                         data: {prisoner_code:dataArray.prisoner_code_list},
+                         dataType: 'json',
+                         success: function(re){
+                         console.log(re);
+                        // ctx2.clearRect(0,0,layer2.width,layer2.height);//
+                         for(var i=0;i<re.obj.length;i++){
+                            var prisoner_name=re.obj[i].prisoner_name;
+                            var current_x=re.obj[i].x;
+                            var current_y=re.obj[i].y;
+                            var prisoner_code=re.obj[i].prisoner_code;
+                            var head_url=re.obj[i].head_url;
+                            //var state=re.obj.prisoner_info_list[i].state;
+                            //is_success=re.obj.is_success;
+                            //error_msg=re.obj.error_msg;
+                            current_x = Number(current_x)*0.1443; 
+                            current_y = Number(current_y)*0.1443;
+                            drawpoint(current_x,current_y,prisoner_name+prisoner_code,head_url);
+              
+                         }
+                         
+                      }
+             
+                      
+                });
+    }
+    function getGroupDataAndDraw(){//对应接口6获取犯人按照组信息接口
+             
+             $.ajax({
+                             type: "post",
+                             url: 'http://localhost:8080/grainInsects/depoter/common/find/group_name',
+                             data: {group_name:dataArray.group_name},
+                             dataType: 'json',
+                             success: function(re){
+                             console.log(re);
+                           //  ctx2.clearRect(0,0,layer2.width,layer2.height);//
+                             for(var i=0;i<re.obj.length;i++){
+                                var prisoner_name=re.obj[i].prisoner_name;
+                                var current_x=re.obj[i].x;
+                                var current_y=re.obj[i].y;
+                                var prisoner_code=re.obj[i].prisoner_code;
+                                var head_url=re.obj[i].head_url;
+                                //var state=re.obj.prisoner_info_list[i].state;
+                                //is_success=re.obj.is_success;
+                                //error_msg=re.obj.error_msg;
+                                current_x = Number(current_x)*0.1443; 
+                                current_y = Number(current_y)*0.1443;
+                                drawpoint(current_x,current_y,prisoner_name+prisoner_code,head_url);
+                             }
+                          }                   
+                    });//按照组来获取犯人信息
+        }
+    	 
 (function int(){
     canvas=document.getElementById('canvas');
 	zoomIn=document.getElementById('zoom-in');
 	zoomOut=document.getElementById('zoom-out');
 	revert=document.getElementById('revert');
-    context=canvas.getContext('2d');
-	 layer2 = document.getElementById("canvas");
+	
+    context=canvas.getContext('2d');//context是2D画布
+    
+	 layer2 = document.getElementById("canvas");//这个就是主画布
 	 ctx2 = layer2.getContext("2d");
+	 
+	 bottom = document.getElementById("layer2");//这个就是主画布
+	 botm = bottom.getContext("2d");
     loadImg();
 	   
 		//画布在init里面重绘就好
-		
-	    setInterval(Ondraw, 100);
+
+		//选择那一个列表，并且初始化
+          $('#tt').tree({    
+          url: 'http://localhost:8080/grainInsects/depoter/common//allprisoner_count',   // 这里放置缺勤人数的那个接口
+          loadFilter: function(data){    
+                
+        	  	data.obj[0].text="总人数："+data.obj[0].text;
+        	  	data.obj[1].text="已到人数："+data.obj[1].text;
+        	  	data.obj[2].text="缺勤人数："+data.obj[2].text;
+        	  	data.obj[3].text="请假人数："+data.obj[3].text;
+                  return data.obj;            
+          }    
+          });   
+
+
+	  //  //设定的刷新时间
+      setInterval(getDataAndDraw, 1000);//设定的刷新时间 这个是加入搜索空间以后...
+      //setInterval(Ondraw, 1);
 })();
 
 

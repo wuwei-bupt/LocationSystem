@@ -76,8 +76,8 @@
 		drawbottom();
          $.ajax({
              type: "post",
-             url: 'http://localhost:8080/grainInsects/depoter/common/prison_trace',
-             data: {op_name:realtime,op_parameter:all},
+             url: 'http://localhost:8080/grainInsects/depoter/common/allPrisoner',
+             data: {},
              dataType: 'json',
              success: function(re){
 			 console.log(re);
